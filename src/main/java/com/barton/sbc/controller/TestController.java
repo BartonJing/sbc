@@ -1,0 +1,53 @@
+package com.barton.sbc.controller;
+
+import com.barton.sbc.domian.AuthUser;
+import com.barton.sbc.service.LocaleMessageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+@RestController
+public class TestController {
+    @Autowired
+    LocaleMessageService localeMessageService;
+    /*@GetMapping("/login")
+    public String login(){
+        return "start login";
+    }*/
+
+
+    @GetMapping("/index")
+    public String index(){
+        AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authUser);
+        return "index success";
+    }
+
+
+    @GetMapping("/test1")
+    public String test1(){
+        //System.out.println(localeMessageService.getMessage("username",new String[]{"你好","账单"}));
+        Integer.parseInt("ss");
+        return "test1";
+    }
+    @GetMapping("/test2")
+    public String test2(){
+
+        return "test2";
+    }
+
+    @GetMapping("/loginError")
+    public String loginError(HttpServletRequest request){
+        HttpSession session = request.getSession();
+
+
+        return "loginError";
+    }
+
+
+}
