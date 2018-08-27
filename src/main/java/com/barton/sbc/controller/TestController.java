@@ -1,6 +1,6 @@
 package com.barton.sbc.controller;
 
-import com.barton.sbc.domian.AuthUser;
+import com.barton.sbc.domain.AuthUser;
 import com.barton.sbc.service.LocaleMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +32,13 @@ public class TestController {
     @GetMapping("/test1")
     public String test1(){
         //System.out.println(localeMessageService.getMessage("username",new String[]{"你好","账单"}));
-        Integer.parseInt("ss");
+        return "test1";
+    }
+
+    @GetMapping("/test3")
+    public String test3(){
+        //System.out.println(localeMessageService.getMessage("username",new String[]{"你好","账单"}));
+        Integer.parseInt("aaa");
         return "test1";
     }
     @GetMapping("/test2")

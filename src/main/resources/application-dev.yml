@@ -1,10 +1,10 @@
 server:
   port: 8888
 log:
-  path: /home/barton/upload
+  path: /home/barton/mytemp
   level: info
 upload:
-  path: /home/barton/upload
+  path: /home/barton/mytemp
 
 spring:
   aop:
@@ -12,7 +12,7 @@ spring:
     proxy-target-class: true
 
   datasource:
-    initialization-mode: embedded
+    #initialization-mode: embedded
     username: root
     password: root
     url: jdbc:mysql://localhost:3306/sbc?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
@@ -20,19 +20,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     #连接池配置
     driverClassName: com.mysql.jdbc.Driver
-    filters: stat
-    maxActive: 20
-    initialSize: 1
-    maxWait: 60000
-    minIdle: 1
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: select 'x'
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    maxOpenPreparedStatements: 20
+
   http:
     encoding:
       charset: utf-8

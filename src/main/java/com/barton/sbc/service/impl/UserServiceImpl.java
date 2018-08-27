@@ -1,6 +1,6 @@
 package com.barton.sbc.service.impl;
 
-import com.barton.sbc.domian.AuthUser;
+import com.barton.sbc.domain.AuthUser;
 import com.barton.sbc.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

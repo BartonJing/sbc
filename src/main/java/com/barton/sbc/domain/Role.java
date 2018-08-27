@@ -1,4 +1,4 @@
-package com.barton.sbc.domian;
+package com.barton.sbc.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 

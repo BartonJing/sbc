@@ -74,7 +74,7 @@ public class AppErrorController implements ErrorController {
     public ServerResponse error(HttpServletRequest request) {
         Map<String, Object> body = getErrorAttributes(request, getTraceParameter(request));
         HttpStatus status = getStatus(request);
-        return ServerResponse.createByErrorCodeMessage(ResponseCode.EXCEPTION.getCode(),localeMessageService.getMessage("sys.error"),new ResponseEntity<Map<String, Object>>(body, status));
+        return ServerResponse.createByErrorCodeMessage(Integer.parseInt(body.get("status").toString()),localeMessageService.getMessage("sys.error"),new ResponseEntity<Map<String, Object>>(body, status));
 
     }
 

@@ -1,6 +1,6 @@
 package com.barton.sbc.security;
 
-import com.barton.sbc.domian.AuthUser;
+import com.barton.sbc.domain.AuthUser;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -26,7 +26,7 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
         //获取请求地址
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
         System.out.println("requestUrl:"+requestUrl);
-        String [] permitAllPath = new String[]{"/","/toLogin","/test1","/changeSessionLanauage?lang=zh","/changeSessionLanauage?lang=en"};
+        String [] permitAllPath = new String[]{"/","/toLogin","/test1","/test3","/changeSessionLanauage?lang=en"};
         for(String p:permitAllPath){
             if(p.equals(requestUrl))
                 return;
