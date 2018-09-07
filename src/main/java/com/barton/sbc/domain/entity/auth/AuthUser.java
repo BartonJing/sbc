@@ -1,62 +1,66 @@
 package com.barton.sbc.domain.entity.auth;
 
 import com.barton.sbc.domain.entity.BaseDomain;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
-public class AuthUser extends BaseDomain {
+public class AuthUser extends BaseDomain implements Serializable,UserDetails {
     /**
-     * 
+     * id
      */
     private String id;
 
     /**
-     * 
+     * 姓名
      */
     private String name;
 
     /**
-     * 
+     * 用户名
      */
     private String username;
 
     /**
-     * 
+     * 密码
      */
     private String password;
 
     /**
-     * 
+     * 是否锁定
      */
     private String locked;
 
     /**
-     * 
+     * 邮件
      */
     private String email;
 
     /**
-     * 
+     * 电话
      */
     private String mobile;
 
     /**
-     * 
+     * 创建时间
      */
     private Date gmtCreate;
 
     /**
-     * 
+     * 创建人
      */
     private String userCreate;
 
     /**
-     * 
+     * 修改人
      */
     private Date gmtModified;
 
     /**
-     * 
+     * 修改人
      */
     private String userModified;
 
@@ -80,8 +84,33 @@ public class AuthUser extends BaseDomain {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     public void setUsername(String username) {
         this.username = username == null ? null : username.trim();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     public String getPassword() {

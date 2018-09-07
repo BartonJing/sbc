@@ -108,4 +108,18 @@ public class AuthRole extends BaseDomain {
     public void setUserModified(String userModified) {
         this.userModified = userModified == null ? null : userModified.trim();
     }
+
+    @Override
+    public String toString() {
+        return "AuthRole{" +
+                "id='" + id + '\'' +
+                ", roleName='" + roleName + '\'' +
+                ", roleCode='" + roleCode + '\'' +
+                ", level=" + level +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                ", userCreate='" + userCreate + '\'' +
+                ", userModified='" + userModified + '\'' +
+                '}';
+    }
 }

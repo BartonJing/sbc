@@ -1,4 +1,4 @@
-package com.barton.sbc.utils;
+package com.barton.sbc.utils.auto;
 
 
 

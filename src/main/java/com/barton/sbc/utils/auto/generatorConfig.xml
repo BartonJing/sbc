@@ -33,7 +33,7 @@
 
 
 
-		<commentGenerator type="com.barton.sbc.utils.DbRemarksCommentGenerator"></commentGenerator>
+		<commentGenerator type="com.barton.sbc.utils.auto.DbRemarksCommentGenerator"></commentGenerator>
 		<!--数据库连接的信息：驱动类、连接地址、用户名、密码,这里配置的是mysql的，当然也可以配置oracle等数据库 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
 						connectionURL="jdbc:mysql://localhost:3306/sbc?useSSL=false" userId="root"

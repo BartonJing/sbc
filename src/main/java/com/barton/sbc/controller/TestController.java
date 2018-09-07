@@ -1,6 +1,6 @@
 package com.barton.sbc.controller;
 
-import com.barton.sbc.domain.AuthUser;
+import com.barton.sbc.domain.entity.auth.AuthUser;
 import com.barton.sbc.service.LocaleMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

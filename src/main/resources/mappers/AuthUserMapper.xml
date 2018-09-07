@@ -161,4 +161,10 @@
       user_modified = #{userModified,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from auth_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
 </mapper>

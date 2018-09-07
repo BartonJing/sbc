@@ -1,4 +1,4 @@
-package com.barton.sbc.utils;
+package com.barton.sbc.utils.auto;
 
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
@@ -21,12 +21,14 @@ public class MyBatisGeneratorExecutor {
         try {
             List<String> warnings = new ArrayList<>();
             boolean overwrite = true;
-            File configFile = new File("/home/barton/workspace/sbc/src/main/resources/generatorConfig.xml");
+            File configFile = new File("/home/barton/workspace/sbc/src/main/java/com/barton/sbc/utils/auto/generatorConfig.xml");
             ConfigurationParser cp = new ConfigurationParser(warnings);
             Configuration config = cp.parseConfiguration(configFile);
             DefaultShellCallback callback = new DefaultShellCallback(overwrite);
             MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
             myBatisGenerator.generate(null);
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {

@@ -1,7 +1,7 @@
 package com.barton.sbc.config;
 
 import com.barton.sbc.security.*;
-import com.barton.sbc.service.UserService;
+import com.barton.sbc.service.auth.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserService userService;
+    private AuthUserService userService;
     @Autowired
     UrlAccessDecisionManager urlAccessDecisionManager;
     @Autowired
