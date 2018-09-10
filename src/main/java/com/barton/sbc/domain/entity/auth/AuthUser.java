@@ -3,6 +3,7 @@ package com.barton.sbc.domain.entity.auth;
 import com.barton.sbc.domain.entity.BaseDomain;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -175,5 +176,16 @@ public class AuthUser extends BaseDomain implements Serializable,UserDetails {
 
     public void setUserModified(String userModified) {
         this.userModified = userModified == null ? null : userModified.trim();
+    }
+    public AuthUser findUser(){
+        AuthUser authUser = new AuthUser();
+        authUser.setUsername("aaa");
+        authUser.setPassword("$2a$10$UWZLv3R02Ees9JlvGIiQruF72aRfd.3DolI9gen8W3AAqADQ6r0re");//"123456"
+
+        return authUser;
+    }
+
+    public static void main(String args []){
+        System.out.println(new BCryptPasswordEncoder().encode("123456"));
     }
 }
