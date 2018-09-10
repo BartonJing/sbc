@@ -11,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 
 import java.util.Collection;
 
@@ -21,14 +22,14 @@ import java.util.Collection;
 public class UrlAccessDecisionManager implements AccessDecisionManager {
     @Override
     public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection) throws AccessDeniedException, AuthenticationException {
-
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
 
         //获取请求地址
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
         System.out.println("requestUrl:"+requestUrl);
         String [] permitAllPath = new String[]{"/","/toLogin","/test1","/test3","/changeSessionLanauage?lang=en"};
         for(String p:permitAllPath){
-            //if(p.equals(requestUrl))
+            if(antPathMatcher.match(p,requestUrl))
                 return;
         }
 
