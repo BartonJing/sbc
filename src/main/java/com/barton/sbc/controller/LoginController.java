@@ -1,7 +1,5 @@
 package com.barton.sbc.controller;
 
-import com.barton.sbc.common.ResponseCode;
-import com.barton.sbc.common.ServerResponse;
 import com.barton.sbc.domain.entity.auth.AuthUser;
 import com.barton.sbc.service.auth.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
