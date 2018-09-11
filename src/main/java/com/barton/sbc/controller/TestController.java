@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RestController
@@ -22,7 +23,8 @@ public class TestController {
 
 
     @GetMapping("/index")
-    public String index(){
+    public String index(HttpServletResponse response){
+        //response.setHeader("aaaaaa","eeeeeeeeeeeeeeeeeee");
         AuthUser authUser = CurrentUserUtil.getAuthUser();
         return "index success";
     }

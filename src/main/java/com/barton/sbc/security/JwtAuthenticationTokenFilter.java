@@ -63,7 +63,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 }
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = this.authUserService.loadUserByUsername(username);
-                    if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+                    int validateRes = jwtTokenUtil.validateTokenDetail(authToken, userDetails);
+                    if (validateRes > 0) {
                         //是否需要进行权限验证
                         if(isPermissionCheck(request.getRequestURI())){
                             //是否有权限
@@ -76,6 +77,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
                         authentication.setDetails(authUserService.loadUserByUsername(username));
                         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                        if(validateRes == 1){
+                            //刷新token
+                            response.addHeader("newtoken",jwtTokenUtil.refreshToken(authToken));
+                        }
 
                     }else{
                         throwException(request,response,"token验证失败");
@@ -116,7 +122,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
      * 验证 url 是否有权限
      */
     public boolean isPermission(String url, Collection<? extends GrantedAuthority> authorities){
-        List<AuthPermission> permissions = authPermissionMapper.findAll();
         AntPathMatcher matcher = new AntPathMatcher();
         for(GrantedAuthority authoritie : authorities) {
             if(matcher.match(authoritie.getAuthority(),url)) {

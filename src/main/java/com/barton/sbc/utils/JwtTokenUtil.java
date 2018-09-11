@@ -1,5 +1,7 @@
 package com.barton.sbc.utils;
 
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
 import com.barton.sbc.domain.entity.auth.AuthUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -20,7 +22,11 @@ public class JwtTokenUtil implements Serializable {
     /**
      * 密钥
      */
-    private final String secret = "aaaaaaaa";
+    private final static String secret = "aaaaaaaa";
+    /**
+     * 多长时间刷新token
+     */
+    private final static int refreshTime = 3;
 
     /**
      * 从数据声明生成令牌
@@ -29,7 +35,7 @@ public class JwtTokenUtil implements Serializable {
      * @return 令牌
      */
     private String generateToken(Map<String, Object> claims) {
-        Date expirationDate = new Date(System.currentTimeMillis() + 2592000L * 1000);
+        Date expirationDate = new Date(System.currentTimeMillis() + 2592000L * 1000);//一个月
         return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
@@ -39,7 +45,7 @@ public class JwtTokenUtil implements Serializable {
      * @param token 令牌
      * @return 数据声明
      */
-    private Claims getClaimsFromToken(String token) {
+    private static Claims getClaimsFromToken(String token) {
         Claims claims;
         try {
             claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
@@ -85,7 +91,7 @@ public class JwtTokenUtil implements Serializable {
      * @param token 令牌
      * @return 是否过期
      */
-    public Boolean isTokenExpired(String token) {
+    public static Boolean isTokenExpired(String token) {
         try {
             Claims claims = getClaimsFromToken(token);
             Date expiration = claims.getExpiration();
@@ -124,5 +130,39 @@ public class JwtTokenUtil implements Serializable {
         AuthUser user = (AuthUser) userDetails;
         String username = getUsernameFromToken(token);
         return (username.equals(user.getUsername()) && !isTokenExpired(token));
+    }
+
+    /**
+     * 验证令牌
+     * @param token        令牌
+     * @param userDetails  用户
+     * @return 0:未验证通过  1:验证通过，需要重新刷新token  2:验证通过，不需要重新刷新token
+     */
+    public static int validateTokenDetail(String token, UserDetails userDetails) {
+        AuthUser user = (AuthUser) userDetails;
+        Claims claims = getClaimsFromToken(token);
+        try{
+            String username = claims.getSubject();
+            if(username.equals(user.getUsername()) && !isTokenExpired(token)){
+                Date created = DateUtil.date((Long) claims.get("created"));
+                Long hour = DateUtil.between(created,new Date(), DateUnit.HOUR);
+                if(hour >= refreshTime){
+                    return 1;//验证通过，需要重新刷新token
+                }else{
+                    return 2;//验证通过，不需要重新刷新token
+                }
+            }else{
+                return 0;//未验证通过
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
+
+    public static void main(String [] args){
+        //System.out.println(validateToken1("eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MzkyNDE2NjAsInN1YiI6ImFhYSIsImNyZWF0ZWQiOjE1MzY2NDk2NjAzMzF9.exwuInlXQ602AghKm3JEy6Jyz2soDIwcHqRlNfwuN9ET2_Fjw7aDje0GrNcjLJyUtP_kmC0_LVu1CXNbWVUIOA",null));
+        //System.out.println(validateToken1("eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MzkyNDU0NTUsInN1YiI6ImFhYSIsImNyZWF0ZWQiOjE1MzY2NTM0NTU1NDN9.ubhAHA2kCGyMDUEFG9gCOPC9ikGgwamPXa_F85pBjmOpAvOBTAtVBI3GNZZXEkjcTYkUwGYDMnoR7pL15kyrHg",null));
     }
 }
