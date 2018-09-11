@@ -204,6 +204,24 @@ public class AuthUser extends BaseDomain implements Serializable,UserDetails {
         return authUser;
     }
 
+    @Override
+    public String toString() {
+        return "AuthUser{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", locked='" + locked + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", gmtCreate=" + gmtCreate +
+                ", userCreate='" + userCreate + '\'' +
+                ", gmtModified=" + gmtModified +
+                ", userModified='" + userModified + '\'' +
+                ", authorities=" + authorities +
+                '}';
+    }
+
     public static void main(String args []){
         System.out.println(new BCryptPasswordEncoder().encode("123456"));
     }
