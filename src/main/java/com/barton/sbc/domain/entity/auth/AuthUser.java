@@ -2,10 +2,12 @@ package com.barton.sbc.domain.entity.auth;
 
 import com.barton.sbc.domain.entity.BaseDomain;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -65,6 +67,16 @@ public class AuthUser extends BaseDomain implements Serializable,UserDetails {
      */
     private String userModified;
 
+    public AuthUser() {
+    }
+
+    public AuthUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    private Collection<SimpleGrantedAuthority> authorities;
+
     public String getId() {
         return id;
     }
@@ -111,7 +123,7 @@ public class AuthUser extends BaseDomain implements Serializable,UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     public String getPassword() {
@@ -177,11 +189,18 @@ public class AuthUser extends BaseDomain implements Serializable,UserDetails {
     public void setUserModified(String userModified) {
         this.userModified = userModified == null ? null : userModified.trim();
     }
+
+    public void setAuthorities(Collection<SimpleGrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
     public AuthUser findUser(){
         AuthUser authUser = new AuthUser();
         authUser.setUsername("aaa");
         authUser.setPassword("$2a$10$UWZLv3R02Ees9JlvGIiQruF72aRfd.3DolI9gen8W3AAqADQ6r0re");//"123456"
-
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("/index"));
+        authUser.setAuthorities(authorities);
         return authUser;
     }
 

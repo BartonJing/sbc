@@ -89,7 +89,7 @@ public class AuthUserServiceImpl implements AuthUserService {
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(upToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetails userDetails = loadUserByUsername(username);
+        UserDetails userDetails = new AuthUser(username,password);
         return jwtTokenUtil.generateToken(userDetails);
     }
     /**

@@ -20,11 +20,11 @@ public class TestController {
     }*/
 
 
-    @GetMapping("//index")
+    @GetMapping("/index")
     public String index(){
-        AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-         authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authUser);
+        //AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         //authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication();
+       // System.out.println(authUser);
         return "index success";
     }
 

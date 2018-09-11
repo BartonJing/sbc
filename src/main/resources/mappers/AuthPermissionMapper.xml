@@ -172,4 +172,9 @@
       user_modified = #{userModified,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from auth_permission
+  </select>
 </mapper>

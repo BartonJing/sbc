@@ -3,6 +3,8 @@ package com.barton.sbc.dao.auth;
 
 import com.barton.sbc.domain.entity.auth.AuthPermission;
 
+import java.util.List;
+
 public interface AuthPermissionMapper {
     int deleteByPrimaryKey(String id);
 
@@ -15,4 +17,6 @@ public interface AuthPermissionMapper {
     int updateByPrimaryKeySelective(AuthPermission record);
 
     int updateByPrimaryKey(AuthPermission record);
+
+    List<AuthPermission> findAll();
 }
