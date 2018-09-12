@@ -165,6 +165,10 @@
     select
     <include refid="Base_Column_List" />
     from auth_user
-    where id = #{id,jdbcType=VARCHAR}
+    <where>
+      <if test="username != null">
+        username = #{username}
+      </if>
+    </where>
   </select>
 </mapper>

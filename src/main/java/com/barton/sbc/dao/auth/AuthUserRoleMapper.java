@@ -1,6 +1,9 @@
 package com.barton.sbc.dao.auth;
 
 import com.barton.sbc.domain.entity.auth.AuthUserRole;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface AuthUserRoleMapper {
     int deleteByPrimaryKey(String id);
@@ -14,4 +17,12 @@ public interface AuthUserRoleMapper {
     int updateByPrimaryKeySelective(AuthUserRole record);
 
     int updateByPrimaryKey(AuthUserRole record);
+
+    int batchInsert(List<AuthUserRole> records);
+
+    int deleteByUserIdAndRoleId(@Param("userId") String useId, @Param("roleId") String roleId);
+
+    int deleteByUserId(String userId);
+
+    int deleteByRoleId(String roleId);
 }

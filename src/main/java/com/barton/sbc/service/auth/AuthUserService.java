@@ -1,6 +1,7 @@
 package com.barton.sbc.service.auth;
 
 import com.barton.sbc.domain.entity.auth.AuthUser;
+import com.barton.sbc.domain.entity.auth.AuthUserRole;
 import com.github.pagehelper.PageInfo;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -52,6 +53,35 @@ public interface AuthUserService extends UserDetailsService {
      */
     PageInfo<AuthUser> selectPage(Integer page, Integer pageSize, Map<String, Object> params);
 
+    /**
+     * 添加user_role　关联关系
+     * @param authUserRole
+     * @return
+     */
+    int insertUserRole(AuthUserRole authUserRole);
+
+    /**
+     * 批量添加user_role　关联关系
+     * @param authUserRoles
+     * @return
+     */
+    int batchInsertUserRole(List<AuthUserRole> authUserRoles);
+
+    /**
+     * 删除用户角色关联信息
+     * @param id
+     * @return
+     */
+    int deleteUserRoleById(String id);
+
+    /**
+     * 删除用户角色关联信息
+     * @param userId
+     * @param roleId
+     * @return
+     */
+    int deleteUserRoleByUserIdAndRoleId(String userId,String roleId);
+
 
     /**
      * 用户登录
@@ -77,4 +107,6 @@ public interface AuthUserService extends UserDetailsService {
      * @return 新密钥
      */
     String refreshToken(String oldToken);
+
+
 }

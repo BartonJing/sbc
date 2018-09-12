@@ -1,7 +1,10 @@
 package com.barton.sbc.service.auth.impl;
 
 import com.barton.sbc.dao.auth.AuthUserMapper;
+import com.barton.sbc.dao.auth.AuthUserRoleMapper;
+import com.barton.sbc.domain.entity.AuthExtend;
 import com.barton.sbc.domain.entity.auth.AuthUser;
+import com.barton.sbc.domain.entity.auth.AuthUserRole;
 import com.barton.sbc.service.auth.AuthUserService;
 import com.barton.sbc.utils.JwtTokenUtil;
 import com.github.pagehelper.PageHelper;
@@ -24,6 +27,8 @@ import java.util.Map;
 public class AuthUserServiceImpl implements AuthUserService {
     @Autowired
     private AuthUserMapper authUserMapper;
+    @Autowired
+    private AuthUserRoleMapper authUserRoleMapper;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -49,7 +54,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     public AuthUser updateById(AuthUser authUser) {
-        if(authUserMapper.updateByPrimaryKey(authUser) > 0){
+        if(authUserMapper.updateByPrimaryKeySelective(authUser) > 0){
             return authUser;
         }
         return null;
@@ -75,6 +80,26 @@ public class AuthUserServiceImpl implements AuthUserService {
         PageHelper.startPage(page,pageSize);
         PageInfo<AuthUser> pageInfo = new PageInfo<AuthUser>(selectByParams(params));
         return pageInfo;
+    }
+
+    @Override
+    public int insertUserRole(AuthUserRole authUserRole) {
+        return authUserRoleMapper.insert(authUserRole);
+    }
+
+    @Override
+    public int batchInsertUserRole(List<AuthUserRole> authUserRoles) {
+        return authUserRoleMapper.batchInsert(authUserRoles);
+    }
+
+    @Override
+    public int deleteUserRoleById(String id) {
+        return authUserRoleMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteUserRoleByUserIdAndRoleId(String userId,String roleId) {
+        return authUserRoleMapper.deleteByUserIdAndRoleId(userId,roleId);
     }
 
     /**
