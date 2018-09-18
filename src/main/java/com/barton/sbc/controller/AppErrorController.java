@@ -1,6 +1,5 @@
 package com.barton.sbc.controller;
 
-import com.barton.sbc.common.ResponseCode;
 import com.barton.sbc.common.ServerResponse;
 import com.barton.sbc.service.LocaleMessageService;
 import org.slf4j.Logger;

@@ -2,12 +2,13 @@ package com.barton.sbc.controller;
 
 import com.barton.sbc.domain.entity.auth.AuthUser;
 import com.barton.sbc.service.LocaleMessageService;
+import com.barton.sbc.utils.CurrentUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RestController
@@ -21,10 +22,9 @@ public class TestController {
 
 
     @GetMapping("/index")
-    public String index(){
-        AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-         authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authUser);
+    public String index(HttpServletResponse response){
+        //response.setHeader("aaaaaa","eeeeeeeeeeeeeeeeeee");
+        AuthUser authUser = CurrentUserUtil.getAuthUser();
         return "index success";
     }
 

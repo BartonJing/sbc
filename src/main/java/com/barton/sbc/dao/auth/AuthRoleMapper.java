@@ -3,6 +3,9 @@ package com.barton.sbc.dao.auth;
 
 import com.barton.sbc.domain.entity.auth.AuthRole;
 
+import java.util.List;
+import java.util.Map;
+
 public interface AuthRoleMapper {
     int deleteByPrimaryKey(String id);
 
@@ -15,4 +18,8 @@ public interface AuthRoleMapper {
     int updateByPrimaryKeySelective(AuthRole record);
 
     int updateByPrimaryKey(AuthRole record);
+
+    List<AuthRole> selectByParams(Map<String,Object> params);
+
+    List<AuthRole> selectByUserId(String userId);
 }

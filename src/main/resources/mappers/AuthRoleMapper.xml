@@ -125,4 +125,20 @@
       user_modified = #{userModified,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from auth_role
+    <where>
+      <if test="roleCode != null">
+        role_code = #{roleCode}
+      </if>
+    </where>
+  </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from auth_role where id in
+    (select role_id from auth_user_role where user_id = #{userId})
+  </select>
 </mapper>

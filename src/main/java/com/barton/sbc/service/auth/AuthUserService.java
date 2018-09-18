@@ -1,6 +1,7 @@
 package com.barton.sbc.service.auth;
 
 import com.barton.sbc.domain.entity.auth.AuthUser;
+import com.barton.sbc.domain.entity.auth.AuthUserRole;
 import com.github.pagehelper.PageInfo;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -51,4 +52,61 @@ public interface AuthUserService extends UserDetailsService {
      * @return
      */
     PageInfo<AuthUser> selectPage(Integer page, Integer pageSize, Map<String, Object> params);
+
+    /**
+     * 添加user_role　关联关系
+     * @param authUserRole
+     * @return
+     */
+    int insertUserRole(AuthUserRole authUserRole);
+
+    /**
+     * 批量添加user_role　关联关系
+     * @param authUserRoles
+     * @return
+     */
+    int batchInsertUserRole(List<AuthUserRole> authUserRoles);
+
+    /**
+     * 删除用户角色关联信息
+     * @param id
+     * @return
+     */
+    int deleteUserRoleById(String id);
+
+    /**
+     * 删除用户角色关联信息
+     * @param userId
+     * @param roleId
+     * @return
+     */
+    int deleteUserRoleByUserIdAndRoleId(String userId,String roleId);
+
+
+    /**
+     * 用户登录
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 操作结果
+     */
+    String login(String username, String password);
+
+    /**
+     * 用户注册
+     *
+     * @param user 用户信息
+     * @return 操作结果
+     */
+    String register(AuthUser user);
+
+    /**
+     * 刷新密钥
+     *
+     * @param oldToken 原密钥
+     * @return 新密钥
+     */
+    String refreshToken(String oldToken);
+
+
 }
