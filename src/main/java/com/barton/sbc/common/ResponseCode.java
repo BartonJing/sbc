@@ -4,8 +4,7 @@ public enum ResponseCode {
 
     SUCCESS(0, "SUCCESS"),
     ERROR(1, "ERROR"),
-    LOGINSUCCESS(-11, "LOGINSUCCESS"),//登录成功
-    LOGINERROR(-12, "LOGINERROR");//登录失败
+    LOGINSUCCESS(-11, "AUTHERROR");//权限失败信息
 
 
     private final int code;

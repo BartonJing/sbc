@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/auth/role")
 public class RoleController {
     private static final Logger logger = LoggerFactory.getLogger(RoleController.class);
     @Autowired

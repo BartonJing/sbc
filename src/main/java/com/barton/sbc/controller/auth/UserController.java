@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 @RestController
+@RequestMapping(value = "/auth/user")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired

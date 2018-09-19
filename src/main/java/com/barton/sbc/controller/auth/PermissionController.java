@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/auth/permission")
 public class PermissionController {
     private static final Logger logger = LoggerFactory.getLogger(PermissionController.class);
     @Autowired

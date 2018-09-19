@@ -45,8 +45,10 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String[] antMatchers = WebSecurityConfig.antMatchers;
         AntPathMatcher antPathMatcher = new AntPathMatcher();
         for(String pattern:antMatchers){
-            if(antPathMatcher.match(pattern, request.getRequestURI())){
+            String url = request.getRequestURI();
+            if(antPathMatcher.match(pattern, url)){
                 flag = false;
+                break;
             }
             continue;
         }

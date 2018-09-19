@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        antMatchers = new String[]{"/user/**"};
+        antMatchers = new String[]{"/auth/login"};
         httpSecurity.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().logout().permitAll()
                 .and().authorizeRequests()
