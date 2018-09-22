@@ -22,15 +22,17 @@ public class AuthPermission extends BaseDomain {
     private String type;
 
     /**
-     * 权限编码,shiro使用
-     */
-    private String code;
-
-    /**
      * 图标名称
      */
     private String icon;
-
+    /**
+     * vue模块名
+     */
+    private String component;
+    /**
+     * 路径匹配规则
+     */
+    private String url;
     /**
      * 访问路径
      */
@@ -88,14 +90,6 @@ public class AuthPermission extends BaseDomain {
 
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
     }
 
     public String getIcon() {
@@ -160,5 +154,21 @@ public class AuthPermission extends BaseDomain {
 
     public void setUserModified(String userModified) {
         this.userModified = userModified == null ? null : userModified.trim();
+    }
+
+    public String getComponent() {
+        return component;
+    }
+
+    public void setComponent(String component) {
+        this.component = component;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

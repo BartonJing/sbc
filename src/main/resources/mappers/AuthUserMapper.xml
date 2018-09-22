@@ -171,4 +171,10 @@
       </if>
     </where>
   </select>
+  <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from auth_user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
 </mapper>

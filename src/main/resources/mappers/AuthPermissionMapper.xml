@@ -5,8 +5,9 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="component" property="component" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="path" property="path" jdbcType="VARCHAR" />
     <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
     <result column="order_id" property="orderId" jdbcType="TINYINT" />
@@ -16,7 +17,7 @@
     <result column="user_modified" property="userModified" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, type, code, icon, path, parent_id, order_id, gmt_create, gmt_modified, 
+    id, name, type, icon, component, url, path, parent_id, order_id, gmt_create, gmt_modified,
     user_create, user_modified
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -31,11 +32,11 @@
   </delete>
   <insert id="insert" parameterType="com.barton.sbc.domain.entity.auth.AuthPermission" >
     insert into auth_permission (id, name, type, 
-      code, icon, path, parent_id, 
+      icon, component, url, path, parent_id,
       order_id, gmt_create, gmt_modified, 
       user_create, user_modified)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{code,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{icon,jdbcType=VARCHAR}, #{component,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR},
       #{orderId,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
       #{userCreate,jdbcType=VARCHAR}, #{userModified,jdbcType=VARCHAR})
   </insert>
@@ -51,11 +52,14 @@
       <if test="type != null" >
         type,
       </if>
-      <if test="code != null" >
-        code,
-      </if>
       <if test="icon != null" >
         icon,
+      </if>
+      <if test="component != null" >
+        component,
+      </if>
+      <if test="url != null" >
+        url,
       </if>
       <if test="path != null" >
         path,
@@ -89,11 +93,14 @@
       <if test="type != null" >
         #{type,jdbcType=VARCHAR},
       </if>
-      <if test="code != null" >
-        #{code,jdbcType=VARCHAR},
-      </if>
       <if test="icon != null" >
         #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null" >
+        #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
       </if>
       <if test="path != null" >
         #{path,jdbcType=VARCHAR},
@@ -127,11 +134,14 @@
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="code != null" >
-        code = #{code,jdbcType=VARCHAR},
-      </if>
       <if test="icon != null" >
         icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null" >
+        component = #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
       </if>
       <if test="path != null" >
         path = #{path,jdbcType=VARCHAR},
@@ -161,8 +171,9 @@
     update auth_permission
     set name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
-       = #{code,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=VARCHAR},
+      component = #{component,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
       path = #{path,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=VARCHAR},
       order_id = #{orderId,jdbcType=TINYINT},

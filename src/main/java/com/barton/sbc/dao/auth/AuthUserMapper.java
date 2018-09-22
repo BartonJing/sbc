@@ -20,4 +20,6 @@ public interface AuthUserMapper {
     int updateByPrimaryKey(AuthUser record);
 
     List<AuthUser> selectByParams(Map<String,Object> params);
+
+    AuthUser selectByUserName(String username);
 }

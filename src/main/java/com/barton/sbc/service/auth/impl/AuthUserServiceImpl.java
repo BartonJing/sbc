@@ -1,10 +1,13 @@
 package com.barton.sbc.service.auth.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.barton.sbc.dao.auth.AuthUserMapper;
 import com.barton.sbc.dao.auth.AuthUserRoleMapper;
 import com.barton.sbc.domain.entity.AuthExtend;
+import com.barton.sbc.domain.entity.auth.AuthPermission;
 import com.barton.sbc.domain.entity.auth.AuthUser;
 import com.barton.sbc.domain.entity.auth.AuthUserRole;
+import com.barton.sbc.service.auth.AuthPermissionService;
 import com.barton.sbc.service.auth.AuthUserService;
 import com.barton.sbc.utils.JwtTokenUtil;
 import com.github.pagehelper.PageHelper;
@@ -13,15 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AuthUserServiceImpl implements AuthUserService {
@@ -33,13 +35,25 @@ public class AuthUserServiceImpl implements AuthUserService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private AuthPermissionService authPermissionService;
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        //模拟存数据库等持久化存储中读取用户信息
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        //获取用户信息
         AuthUser authUser = new AuthUser();
-        authUser = authUser.findUser();
+        authUser = selectByUserName(username);
+        //查询权限信息
+        List<AuthPermission> authPermissions = authPermissionService.selectByUserId(username);
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        if(CollectionUtil.isNotEmpty(authPermissions)){
+            for(AuthPermission ap:authPermissions){
+                authorities.add(new SimpleGrantedAuthority(ap.getUrl()));
+                authUser.setAuthorities(authorities);
+            }
+        }
+
         if(authUser == null){
-            throw new UsernameNotFoundException("未找到用户!");
+            throw new UsernameNotFoundException("用户名称不正确!");
         }
         return authUser;
     }
@@ -100,6 +114,11 @@ public class AuthUserServiceImpl implements AuthUserService {
     @Override
     public int deleteUserRoleByUserIdAndRoleId(String userId,String roleId) {
         return authUserRoleMapper.deleteByUserIdAndRoleId(userId,roleId);
+    }
+
+    @Override
+    public AuthUser selectByUserName(String username) {
+        return authUserMapper.selectByUserName(username);
     }
 
     /**

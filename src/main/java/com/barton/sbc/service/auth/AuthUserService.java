@@ -82,6 +82,13 @@ public interface AuthUserService extends UserDetailsService {
      */
     int deleteUserRoleByUserIdAndRoleId(String userId,String roleId);
 
+    /**
+     * 根据用户名称查询
+     * @param username
+     * @return
+     */
+    AuthUser selectByUserName(String username);
+
 
     /**
      * 用户登录
