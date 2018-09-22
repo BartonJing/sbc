@@ -1,6 +1,7 @@
 package com.barton.sbc.security;
 
 import com.barton.sbc.common.ResponseCode;
+import com.barton.sbc.exception.MyAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         httpServletResponse.setContentType("application/json;charset=utf-8");
         PrintWriter out = httpServletResponse.getWriter();
-        out.write("{\"status\":\""+ResponseCode.LOGINSUCCESS.getCode() +"\",\"msg\":\""+e.getMessage()+"\"}");
+        out.write("{\"status\":\""+((MyAuthenticationException) e).getCode() +"\",\"msg\":\""+e.getMessage()+"\"}");
         out.flush();
         out.close();
     }

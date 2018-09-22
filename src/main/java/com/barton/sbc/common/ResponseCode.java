@@ -4,7 +4,9 @@ public enum ResponseCode {
 
     SUCCESS(0, "SUCCESS"),
     ERROR(1, "ERROR"),
-    LOGINSUCCESS(-11, "AUTHERROR");//权限失败信息
+    AUTHERROR(-11, "AUTHERROR"),//session 验证失败
+    MEEDLOGIN(-12, "MEEDLOGIN"),//需要登录后才能访问
+    NOPERMISSION(403, "NOPERMISSION");//没有权限
 
 
     private final int code;

@@ -1,5 +1,6 @@
 package com.barton.sbc.security;
 
+import com.barton.sbc.common.ResponseCode;
 import com.barton.sbc.config.WebSecurityConfig;
 import com.barton.sbc.dao.auth.AuthPermissionMapper;
 import com.barton.sbc.domain.entity.auth.AuthPermission;
@@ -61,7 +62,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 String authToken = authHeader.substring(tokenHead.length());
                 String username = jwtTokenUtil.getUsernameFromToken(authToken);
                 if(username == null){
-                    throwException(request,response,"token验证失败");
+                    throwException(request,response, ResponseCode.AUTHERROR.getCode(),"token验证失败");
                 }
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = this.authUserService.loadUserByUsername(username);
@@ -71,7 +72,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                         if(isPermissionCheck(request.getRequestURI())){
                             //是否有权限
                             if(!isPermission(request.getRequestURI(),userDetails.getAuthorities())){
-                                throwException(request,response,"no permission");
+                                throwException(request,response,ResponseCode.NOPERMISSION.getCode(),"no permission");
                             }
                         }
 
@@ -86,20 +87,20 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                         }
 
                     }else{
-                        throwException(request,response,"token验证失败");
+                        throwException(request,response,ResponseCode.AUTHERROR.getCode(),"token验证失败");
                     }
                 }
             }else{
-                throwException(request,response,"此操作必须先登录");
+                throwException(request,response,ResponseCode.MEEDLOGIN.getCode(),"此操作必须先登录");
             }
         }
 
         chain.doFilter(request, response);
     }
 
-    private void throwException(HttpServletRequest request, HttpServletResponse response,String msg)throws ServletException, IOException{
+    private void throwException(HttpServletRequest request, HttpServletResponse response,int code, String msg)throws ServletException, IOException{
         try {
-            throw new MyAuthenticationException(msg);
+            throw new MyAuthenticationException(code,msg);
         } catch (MyAuthenticationException e) {
             authenticationFailureHandler.onAuthenticationFailure(request, response, e);
             return ;
