@@ -45,7 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(this.userService).passwordEncoder(new BCryptPasswordEncoder());
+        //authenticationManagerBuilder.userDetailsService(this.userService).passwordEncoder(new BCryptPasswordEncoder());
+        authenticationManagerBuilder.authenticationProvider(authenticationProvider());
     }
 
     @Override
