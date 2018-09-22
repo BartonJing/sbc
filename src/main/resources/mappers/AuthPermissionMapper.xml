@@ -11,14 +11,16 @@
     <result column="path" property="path" jdbcType="VARCHAR" />
     <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
     <result column="order_id" property="orderId" jdbcType="TINYINT" />
+    <result column="keep_alive" property="keepAlive" jdbcType="TINYINT" />
+    <result column="require_auth" property="requireAuth" jdbcType="TINYINT" />
     <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
     <result column="user_create" property="userCreate" jdbcType="VARCHAR" />
     <result column="user_modified" property="userModified" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, type, icon, component, url, path, parent_id, order_id, gmt_create, gmt_modified,
-    user_create, user_modified
+    id, name, type, icon, component, url, path, parent_id, order_id, keep_alive, require_auth, 
+    gmt_create, gmt_modified, user_create, user_modified
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -32,13 +34,17 @@
   </delete>
   <insert id="insert" parameterType="com.barton.sbc.domain.entity.auth.AuthPermission" >
     insert into auth_permission (id, name, type, 
-      icon, component, url, path, parent_id,
-      order_id, gmt_create, gmt_modified, 
-      user_create, user_modified)
+      icon, component, url, 
+      path, parent_id, order_id, 
+      keep_alive, require_auth, gmt_create, 
+      gmt_modified, user_create, user_modified
+      )
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{icon,jdbcType=VARCHAR}, #{component,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR},
-      #{orderId,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
-      #{userCreate,jdbcType=VARCHAR}, #{userModified,jdbcType=VARCHAR})
+      #{icon,jdbcType=VARCHAR}, #{component,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{path,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{orderId,jdbcType=TINYINT}, 
+      #{keepAlive,jdbcType=TINYINT}, #{requireAuth,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{userCreate,jdbcType=VARCHAR}, #{userModified,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.barton.sbc.domain.entity.auth.AuthPermission" >
     insert into auth_permission
@@ -69,6 +75,12 @@
       </if>
       <if test="orderId != null" >
         order_id,
+      </if>
+      <if test="keepAlive != null" >
+        keep_alive,
+      </if>
+      <if test="requireAuth != null" >
+        require_auth,
       </if>
       <if test="gmtCreate != null" >
         gmt_create,
@@ -111,6 +123,12 @@
       <if test="orderId != null" >
         #{orderId,jdbcType=TINYINT},
       </if>
+      <if test="keepAlive != null" >
+        #{keepAlive,jdbcType=TINYINT},
+      </if>
+      <if test="requireAuth != null" >
+        #{requireAuth,jdbcType=TINYINT},
+      </if>
       <if test="gmtCreate != null" >
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -152,6 +170,12 @@
       <if test="orderId != null" >
         order_id = #{orderId,jdbcType=TINYINT},
       </if>
+      <if test="keepAlive != null" >
+        keep_alive = #{keepAlive,jdbcType=TINYINT},
+      </if>
+      <if test="requireAuth != null" >
+        require_auth = #{requireAuth,jdbcType=TINYINT},
+      </if>
       <if test="gmtCreate != null" >
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -177,6 +201,8 @@
       path = #{path,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=VARCHAR},
       order_id = #{orderId,jdbcType=TINYINT},
+      keep_alive = #{keepAlive,jdbcType=TINYINT},
+      require_auth = #{requireAuth,jdbcType=TINYINT},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       user_create = #{userCreate,jdbcType=VARCHAR},

@@ -3,7 +3,6 @@ package com.barton.sbc.service.auth.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.barton.sbc.dao.auth.AuthUserMapper;
 import com.barton.sbc.dao.auth.AuthUserRoleMapper;
-import com.barton.sbc.domain.entity.AuthExtend;
 import com.barton.sbc.domain.entity.auth.AuthPermission;
 import com.barton.sbc.domain.entity.auth.AuthUser;
 import com.barton.sbc.domain.entity.auth.AuthUserRole;
@@ -23,7 +22,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class AuthUserServiceImpl implements AuthUserService {

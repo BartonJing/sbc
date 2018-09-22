@@ -1,8 +1,6 @@
 package com.barton.sbc.service.auth;
 
 import com.barton.sbc.domain.entity.auth.AuthPermission;
-import com.barton.sbc.domain.entity.auth.AuthRolePermission;
-import com.barton.sbc.domain.entity.auth.AuthUserRole;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.barton.sbc.domain.entity.auth;
 
-
 import com.barton.sbc.domain.entity.BaseDomain;
 
 import java.util.Date;
@@ -25,16 +24,19 @@ public class AuthPermission extends BaseDomain {
      * 图标名称
      */
     private String icon;
+
     /**
-     * vue模块名
+     * vue 模块
      */
     private String component;
+
     /**
      * 路径匹配规则
      */
     private String url;
+
     /**
-     * 访问路径
+     * q前端访问路径
      */
     private String path;
 
@@ -46,25 +48,35 @@ public class AuthPermission extends BaseDomain {
     /**
      * 序号
      */
-    private Byte orderId;
+    private Integer orderId;
 
     /**
-     * 
+     *
+     */
+    private Integer keepAlive;
+
+    /**
+     *
+     */
+    private Integer requireAuth;
+
+    /**
+     *
      */
     private Date gmtCreate;
 
     /**
-     * 
+     *
      */
     private Date gmtModified;
 
     /**
-     * 
+     *
      */
     private String userCreate;
 
     /**
-     * 
+     *
      */
     private String userModified;
 
@@ -100,6 +112,22 @@ public class AuthPermission extends BaseDomain {
         this.icon = icon == null ? null : icon.trim();
     }
 
+    public String getComponent() {
+        return component;
+    }
+
+    public void setComponent(String component) {
+        this.component = component == null ? null : component.trim();
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
+    }
+
     public String getPath() {
         return path;
     }
@@ -116,12 +144,28 @@ public class AuthPermission extends BaseDomain {
         this.parentId = parentId == null ? null : parentId.trim();
     }
 
-    public Byte getOrderId() {
+    public Integer getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Byte orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
+    }
+
+    public Integer getKeepAlive() {
+        return keepAlive;
+    }
+
+    public void setKeepAlive(Integer keepAlive) {
+        this.keepAlive = keepAlive;
+    }
+
+    public Integer getRequireAuth() {
+        return requireAuth;
+    }
+
+    public void setRequireAuth(Integer requireAuth) {
+        this.requireAuth = requireAuth;
     }
 
     public Date getGmtCreate() {
@@ -154,21 +198,5 @@ public class AuthPermission extends BaseDomain {
 
     public void setUserModified(String userModified) {
         this.userModified = userModified == null ? null : userModified.trim();
-    }
-
-    public String getComponent() {
-        return component;
-    }
-
-    public void setComponent(String component) {
-        this.component = component;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }

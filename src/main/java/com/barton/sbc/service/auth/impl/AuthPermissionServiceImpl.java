@@ -3,7 +3,6 @@ package com.barton.sbc.service.auth.impl;
 import com.barton.sbc.dao.auth.AuthPermissionMapper;
 import com.barton.sbc.dao.auth.AuthRolePermissionMapper;
 import com.barton.sbc.domain.entity.auth.AuthPermission;
-import com.barton.sbc.domain.entity.auth.AuthRolePermission;
 import com.barton.sbc.service.auth.AuthPermissionService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

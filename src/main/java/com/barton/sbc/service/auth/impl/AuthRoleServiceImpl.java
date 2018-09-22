@@ -5,7 +5,6 @@ import com.barton.sbc.dao.auth.AuthRolePermissionMapper;
 import com.barton.sbc.dao.auth.AuthUserRoleMapper;
 import com.barton.sbc.domain.entity.auth.AuthRole;
 import com.barton.sbc.domain.entity.auth.AuthRolePermission;
-import com.barton.sbc.domain.entity.auth.AuthUserRole;
 import com.barton.sbc.service.auth.AuthRoleService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

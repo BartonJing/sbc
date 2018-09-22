@@ -1,6 +1,5 @@
 package com.barton.sbc.security;
 
-import com.barton.sbc.common.ResponseCode;
 import com.barton.sbc.exception.MyAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
