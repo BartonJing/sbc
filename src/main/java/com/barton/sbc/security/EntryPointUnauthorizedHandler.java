@@ -28,7 +28,6 @@ public class EntryPointUnauthorizedHandler implements AuthenticationEntryPoint {
         }else if(usernameNotFoundException.equals(e.getClass().getName())){
             message = "用户名不存在！";
         }
-        System.out.println(e.getClass().getName());
 
         PrintWriter out = response.getWriter();
         out.write("{\"status\":\""+HttpServletResponse.SC_UNAUTHORIZED +"\",\"msg\":\""+message+"\"}");

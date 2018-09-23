@@ -134,18 +134,12 @@ public class AuthUserServiceImpl implements AuthUserService {
      */
     @Override
     public String login(String username, String password) {
-        try{
-            UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
-            Authentication authentication = authenticationManager.authenticate(upToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            //final UserDetails userDetails = authUserService.loadUserByUsername(username);
-            UserDetails userDetails = new AuthUser(username,password);
-            return jwtTokenUtil.generateToken(userDetails);
-        }catch (UsernameNotFoundException e){
-            throw e;
-        }catch (Exception e){
-            throw e;
-        }
+        UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
+        Authentication authentication = authenticationManager.authenticate(upToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        //final UserDetails userDetails = authUserService.loadUserByUsername(username);
+        UserDetails userDetails = new AuthUser(username,password);
+        return jwtTokenUtil.generateToken(userDetails);
 
     }
     /**

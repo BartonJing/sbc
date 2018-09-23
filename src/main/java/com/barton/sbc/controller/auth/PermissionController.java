@@ -72,12 +72,13 @@ public class PermissionController {
 
     /**
      * 查询
-     * @param authPermission
+     * @param pageNum
+     * @param pageSize
      * @return
      */
-    @PostMapping("/selectPage")
-    public PageInfo<AuthPermission> selectPage(@RequestParam Integer page, @RequestParam Integer pageSize, @RequestBody AuthPermission authPermission){
-        return authPermissionService.selectPage(page,pageSize,null);
+    @GetMapping("/selectPage")
+    public PageInfo<AuthPermission> selectPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize){
+        return authPermissionService.selectPage(pageNum,pageSize,null);
     }
 
     /**
