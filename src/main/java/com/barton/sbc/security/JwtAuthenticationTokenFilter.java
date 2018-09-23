@@ -72,7 +72,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                         if(isPermissionCheck(request.getRequestURI())){
                             //是否有权限
                             if(!isPermission(request.getRequestURI(),userDetails.getAuthorities())){
-                                throwException(request,response,ResponseCode.NOPERMISSION.getCode(),"no permission");
+                                throwException(request,response,ResponseCode.NOPERMISSION.getCode(),"没有权限");
                             }
                         }
 

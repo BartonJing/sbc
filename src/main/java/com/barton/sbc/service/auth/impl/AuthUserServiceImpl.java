@@ -39,6 +39,8 @@ public class AuthUserServiceImpl implements AuthUserService {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private AuthPermissionService authPermissionService;
+    @Autowired
+    private AuthUserService authUserService;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //获取用户信息
@@ -132,11 +134,19 @@ public class AuthUserServiceImpl implements AuthUserService {
      */
     @Override
     public String login(String username, String password) {
-        UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
-        Authentication authentication = authenticationManager.authenticate(upToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetails userDetails = new AuthUser(username,password);
-        return jwtTokenUtil.generateToken(userDetails);
+        try{
+            UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
+            Authentication authentication = authenticationManager.authenticate(upToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            //final UserDetails userDetails = authUserService.loadUserByUsername(username);
+            UserDetails userDetails = new AuthUser(username,password);
+            return jwtTokenUtil.generateToken(userDetails);
+        }catch (UsernameNotFoundException e){
+            throw e;
+        }catch (Exception e){
+            throw e;
+        }
+
     }
     /**
      * 用户注册
