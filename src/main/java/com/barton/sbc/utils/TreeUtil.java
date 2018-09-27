@@ -1,6 +1,12 @@
 package com.barton.sbc.utils;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class TreeUtil {
     /**
