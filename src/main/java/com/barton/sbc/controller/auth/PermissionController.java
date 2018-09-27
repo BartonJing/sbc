@@ -1,5 +1,6 @@
 package com.barton.sbc.controller.auth;
 
+import cn.hutool.core.util.StrUtil;
 import com.barton.sbc.common.ServerResponse;
 import com.barton.sbc.domain.entity.auth.AuthPermission;
 import com.barton.sbc.domain.entity.auth.AuthUser;
@@ -9,8 +10,11 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -24,24 +28,49 @@ public class PermissionController {
     {
         currentUser = CurrentUserUtil.getAuthUser();
     }
-
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));   //true:允许输入空值，false:不能为空值
+    }
     /**
-     * 添加
+     * 添加/修改
      * @param authPermission
      * @return
      */
-    @PostMapping("/insert")
+    @PostMapping("/save")
     public ServerResponse insert(AuthPermission authPermission){
-        authPermission.setGmtCreate(new Date());
-        authPermission.setGmtModified(new Date());
-        authPermission.setUserCreate(currentUser.getId());
-        authPermission.setUserModified(currentUser.getId());
-        if((authPermission = authPermissionService.insert(authPermission)) != null){
-            return ServerResponse.createBySuccess(authPermission);
+        if(authPermission == null){
+            return ServerResponse.createByErrorMessage("保存失败！");
         }
-        return ServerResponse.createByErrorMessage("添加失败");
+        //添加
+        if(StrUtil.isEmpty(authPermission.getId())){
+            authPermission.setGmtCreate(new Date());
+            authPermission.setGmtModified(new Date());
+            authPermission.setUserCreate(currentUser.getId());
+            authPermission.setUserModified(currentUser.getId());
+            if((authPermissionService.insert(authPermission)) != null){
+                return ServerResponse.createBySuccess("添加成功！");
+            }
+        }else{//修改
+            authPermission.setGmtModified(new Date());
+            authPermission.setUserModified(currentUser.getId());
+            if((authPermissionService.updateById(authPermission)) != null){
+                return ServerResponse.createBySuccessMessage("修改成功");
+            }
+        }
+        return ServerResponse.createByErrorMessage("保存失败");
     }
-
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    @GetMapping("/selectById")
+    public AuthPermission selectById(@RequestParam String id){
+        return authPermissionService.selectById(id);
+    }
 
     /**
      * 删除
@@ -56,19 +85,6 @@ public class PermissionController {
         return ServerResponse.createByErrorMessage("删除失败");
     }
 
-
-    /**
-     * 修改
-     * @param authPermission
-     * @return
-     */
-    @PostMapping("/update")
-    public ServerResponse updateById(@RequestBody AuthPermission authPermission){
-        if((authPermission = authPermissionService.updateById(authPermission)) != null){
-            return ServerResponse.createBySuccessMessage("修改成功");
-        }
-        return ServerResponse.createByErrorMessage("修改失败");
-    }
 
     /**
      * 查询
