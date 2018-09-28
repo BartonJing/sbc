@@ -42,7 +42,7 @@ public class PermissionController {
      * @return
      */
     @PostMapping("/save")
-    @SysLogAnnotation(value = "保存菜单信息",type = SysLogAnnotation.SAVE)
+    @SysLogAnnotation(value = "保存菜单信息",type = SysLogAnnotation.SysLogType.SAVE)
     public ServerResponse save(AuthPermission authPermission){
         if(authPermission == null){
             return ServerResponse.createByErrorMessage("保存失败！");
@@ -81,7 +81,7 @@ public class PermissionController {
      * @return
      */
     @GetMapping("/delete")
-    @SysLogAnnotation(value = "删除菜单信息",type = SysLogAnnotation.DELETE)
+    @SysLogAnnotation(value = "删除菜单信息",type = SysLogAnnotation.SysLogType.DELETE)
     public ServerResponse deleteById(@RequestParam String id){
         if(authPermissionService.deleteById(id) > 0){
             return ServerResponse.createBySuccessMessage("删除成功");

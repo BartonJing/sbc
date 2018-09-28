@@ -13,14 +13,19 @@ import java.lang.annotation.Documented;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface SysLogAnnotation {
-    public final static int INSERT = 1;
-    public final static int DELETE = 2;
-    public final static int UPDATE = 3;
-    public final static int SELECT = 4;
-    public final static int SAVE = 5;
     //操作描述
     String value() default "";
     //操作类型
-    int type() default 5;
+    SysLogType type() default SysLogType.SAVE;
 
+    public static enum SysLogType {
+        INSERT,
+        DELETE,
+        UPDATE,
+        SELECT,
+        SAVE;
+
+        private SysLogType() {
+        }
+    }
 }

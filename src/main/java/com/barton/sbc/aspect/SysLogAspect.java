@@ -8,6 +8,8 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class SysLogAspect {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     //controller 包下的所有注解(SysLogAnnotation)
     @Pointcut("execution(public * com.barton.sbc.controller.*.*(..)) && @annotation(com.barton.sbc.annotation.SysLogAnnotation)")
     public void cut(){}
