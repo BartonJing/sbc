@@ -1,9 +1,11 @@
 package com.barton.sbc.controller;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.barton.sbc.domain.entity.Encode;
 import com.barton.sbc.service.EncodeService;
 import com.barton.sbc.utils.CommonUtil;
+import com.barton.sbc.utils.TreeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,16 +42,33 @@ public class EncodeController {
             return null;
         }
         List<Encode> encodes = new ArrayList<>();
+        //单个查询
         if(kindArr.length == 1){
             encodes = encodeService.selectByKind(kindArr[0]);
-        }else{
+        }else{//多个查询
             List<String> list = Arrays.asList(kindArr);
             encodes = encodeService.selectByKinds(list);
         }
+        //将查询结果按照kind分组
         Map<String,List<Encode>> map = new HashMap<String,List<Encode>>();
         CommonUtil.groupListToMap(encodes,map,Encode.class,"getKind");
+        if(map != null){
+            for(Map.Entry<String,List<Encode>> entry:map.entrySet()){
+                //将每个类型的encode数组转为树类型的数据结构
+                map.put(entry.getKey(),listToTree(entry.getValue()));
+            }
+        }
         return map;
     }
 
-
+    /**
+     * 将数组转为tree结构
+     * @param list
+     * @return
+     */
+    public List<Encode> listToTree(List<Encode> list){
+        Encode root = new Encode(0,null);
+        root = TreeUtil.getTree(root,list);
+        return root.getChildNodes();
+    }
 }

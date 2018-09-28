@@ -1,7 +1,7 @@
 package com.barton.sbc.controller.auth;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.barton.sbc.annotation.SysLogAnnotation;
 import com.barton.sbc.common.ServerResponse;
 import com.barton.sbc.domain.entity.auth.AuthPermission;
 import com.barton.sbc.domain.entity.auth.AuthUser;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -43,7 +42,8 @@ public class PermissionController {
      * @return
      */
     @PostMapping("/save")
-    public ServerResponse insert(AuthPermission authPermission){
+    @SysLogAnnotation(value = "保存菜单信息",type = SysLogAnnotation.SAVE)
+    public ServerResponse save(AuthPermission authPermission){
         if(authPermission == null){
             return ServerResponse.createByErrorMessage("保存失败！");
         }
@@ -66,7 +66,7 @@ public class PermissionController {
         return ServerResponse.createByErrorMessage("保存失败");
     }
     /**
-     * 删除
+     * 查询
      * @param id
      * @return
      */
@@ -81,6 +81,7 @@ public class PermissionController {
      * @return
      */
     @GetMapping("/delete")
+    @SysLogAnnotation(value = "删除菜单信息",type = SysLogAnnotation.DELETE)
     public ServerResponse deleteById(@RequestParam String id){
         if(authPermissionService.deleteById(id) > 0){
             return ServerResponse.createBySuccessMessage("删除成功");
@@ -117,15 +118,8 @@ public class PermissionController {
     @PostMapping("/selectAllPermissionToTree")
     public List<AuthPermission> selectAllPermissionToTree(){
         List<AuthPermission> aps = authPermissionService.findAll();
-        LinkedList<AuthPermission> list = new LinkedList<AuthPermission>();
-        if(CollectionUtil.isNotEmpty(aps)){
-            aps.forEach(item->{
-                list.add(item);
-            });
-        }
         AuthPermission root = new AuthPermission("0",null);
-        root = TreeUtil.getTree(root,list);
-
+        root = TreeUtil.getTree(root,aps);
         return root.getChildNodes();
     }
 

@@ -22,4 +22,6 @@ public class EncodeServiceImpl implements EncodeService {
     public List<Encode> selectByKinds(List<String> list) {
         return encodeMapper.selectByKinds(list);
     }
+
+
 }

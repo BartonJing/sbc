@@ -1,9 +1,33 @@
 package com.barton.sbc.utils;
 
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
+
 import java.util.*;
 
 public class TreeUtil {
+    /**
+     * 将无序的结点集合，创建成一棵树。
+     * 创建过程中使用了树的广度优先遍历，并且在考察无序集合的元素时，
+     * 将其逐个插入到广度优先遍历结果集中，最后得到的结果集即是广度优先
+     * 遍历的结果，也是从根元素(结果集中第一个元素)串联好的树形结构。
+     *
+     * @param root 根元素
+     * @param list 无序的、不含根元素的集合
+     * @return 包含子类的树形结构的根元素
+     */
+    public static <T extends InheritedNode> T getTree(T root, List<T> list){
+        if(CollectionUtil.isEmpty(list)){
+            return null;
+        }
+        LinkedList<T> linkedList = new LinkedList<T>();
+        list.forEach(item -> linkedList.add(item));
+        return getTree(root,linkedList);
+    }
+
+
+
     /**
      * 将无序的结点集合，创建成一棵树。
      * 创建过程中使用了树的广度优先遍历，并且在考察无序集合的元素时，
