@@ -1,6 +1,11 @@
 package com.barton.sbc.domain.entity;
 
-public class Encode extends BaseDomain {
+import com.barton.sbc.utils.InheritedNode;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Encode extends BaseDomain implements InheritedNode<Encode> {
     /**
      * 
      */
@@ -65,6 +70,41 @@ public class Encode extends BaseDomain {
      * 扩展字段
      */
     private String extendC;
+
+    /**
+     * 子节点
+     */
+    private List<Encode> children;
+    public Encode() {
+    }
+
+    public Encode(Integer id, String parentId) {
+        this.id = id;
+        this.parentId = parentId;
+    }
+
+    @Override
+    public boolean isChildFrom(Encode node) {
+        return this.parentId.equals(node.getId());
+    }
+
+    @Override
+    public boolean isBrother(Encode node) {
+        return this.parentId.equals(node.getParentId());
+    }
+
+    @Override
+    public void addChildNode(Encode node) {
+        if(children == null) {
+            children = new ArrayList<Encode>();
+        }
+        children.add(node);
+    }
+
+    @Override
+    public List<Encode> getChildNodes() {
+        return children;
+    }
 
     public Integer getId() {
         return id;

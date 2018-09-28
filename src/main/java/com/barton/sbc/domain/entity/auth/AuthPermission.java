@@ -235,12 +235,4 @@ public class AuthPermission implements InheritedNode<AuthPermission> {
     public void setUserModified(String userModified) {
         this.userModified = userModified == null ? null : userModified.trim();
     }
-
-    public List<AuthPermission> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<AuthPermission> children) {
-        this.children = children;
-    }
 }

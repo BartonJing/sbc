@@ -4,8 +4,10 @@ import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -73,4 +75,55 @@ public class CommonUtil {
         }
 
     }
+
+    /**
+     * List 转 Map
+     * @param list                  需要转化的List
+     * @param fieldGetMethodName    转化后的key对应的get方法
+     * @param clazz                 list的泛型
+     * @param <K>
+     * @param <V>
+     * @return
+     * @throws IOException
+     */
+    public static<K,V> Map<K,V>  listToMap(List<V> list,String fieldGetMethodName,Class<V> clazz) throws IOException{
+        Map<K,V> map = new HashMap<K, V>();
+        if(list == null || list.size() == 0){
+            return null;
+        }
+        Method method = getMethodByName(clazz,fieldGetMethodName);
+        try{
+            for (V value : list) {
+                K key = (K)method.invoke(value);
+                map.put(key,value);
+            }
+        }catch (Exception e){
+            logger.error(clazz+"类获取"+fieldGetMethodName+"方法失败！",e);
+        }
+        return map;
+
+    }
+
+    /**
+     * 根据方法名称获取Method
+     * @param clazz       类
+     * @param methodName 方法名称
+     * @return
+     */
+    public static Method getMethodByName(Class<?> clazz, String methodName) {
+        Method method = null;
+        // 入参不能为空
+        if (null == clazz || StrUtil.isEmpty(methodName)) {
+            logger.error("CommonUtils.getMethodByName 参数错误，clazz：" + clazz + " ；methodName：" + methodName);
+            return method;
+        }
+        try {
+            method = clazz.getDeclaredMethod(methodName);
+        } catch (Exception e) {
+            logger.error("类获取方法失败！");
+        }
+        return method;
+    }
+
+
 }
