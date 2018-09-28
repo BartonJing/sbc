@@ -1,11 +1,13 @@
 package com.barton.sbc.controller.auth;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.barton.sbc.common.ServerResponse;
 import com.barton.sbc.domain.entity.auth.AuthPermission;
 import com.barton.sbc.domain.entity.auth.AuthUser;
 import com.barton.sbc.service.auth.AuthPermissionService;
 import com.barton.sbc.utils.CurrentUserUtil;
+import com.barton.sbc.utils.TreeUtil;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -106,6 +109,27 @@ public class PermissionController {
     public List<AuthPermission> selectPermissionsByRoleId(@RequestParam String roleId){
         return authPermissionService.selectByRoleId(roleId);
     }
+
+    /**
+     * 查询所有权限（树型菜单）
+     * @return
+     */
+    @PostMapping("/selectAllPermissionToTree")
+    public List<AuthPermission> selectAllPermissionToTree(){
+        List<AuthPermission> aps = authPermissionService.findAll();
+        LinkedList<AuthPermission> list = new LinkedList<AuthPermission>();
+        if(CollectionUtil.isNotEmpty(aps)){
+            aps.forEach(item->{
+                list.add(item);
+            });
+        }
+        AuthPermission root = new AuthPermission("0",null);
+        root = TreeUtil.getTree(root,list);
+
+        return root.getChildNodes();
+    }
+
+
 
 
 }

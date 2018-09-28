@@ -1,10 +1,12 @@
 package com.barton.sbc.domain.entity.auth;
 
-import com.barton.sbc.domain.entity.BaseDomain;
+import com.barton.sbc.utils.InheritedNode;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class AuthPermission extends BaseDomain {
+public class AuthPermission implements InheritedNode<AuthPermission> {
     /**
      * 权限编号
      */
@@ -79,6 +81,40 @@ public class AuthPermission extends BaseDomain {
      *
      */
     private String userModified;
+
+
+    private List<AuthPermission> children;
+
+    public AuthPermission() {
+    }
+
+    public AuthPermission(String id, String parentId) {
+        this.id = id;
+        this.parentId = parentId;
+    }
+
+    @Override
+    public boolean isChildFrom(AuthPermission node) {
+        return this.parentId.equals(node.getId());
+    }
+
+    @Override
+    public boolean isBrother(AuthPermission node) {
+        return this.parentId.equals(node.getParentId());
+    }
+
+    @Override
+    public void addChildNode(AuthPermission node) {
+        if(children == null) {
+            children = new ArrayList<AuthPermission>();
+        }
+        children.add(node);
+    }
+
+    @Override
+    public List<AuthPermission> getChildNodes() {
+        return children;
+    }
 
     public String getId() {
         return id;
@@ -198,5 +234,13 @@ public class AuthPermission extends BaseDomain {
 
     public void setUserModified(String userModified) {
         this.userModified = userModified == null ? null : userModified.trim();
+    }
+
+    public List<AuthPermission> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<AuthPermission> children) {
+        this.children = children;
     }
 }
