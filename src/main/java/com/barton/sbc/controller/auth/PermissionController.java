@@ -1,7 +1,7 @@
 package com.barton.sbc.controller.auth;
 
 import cn.hutool.core.util.StrUtil;
-import com.barton.sbc.annotation.SysLogAnnotation;
+import com.barton.sbc.annotation.SysLog;
 import com.barton.sbc.common.ServerResponse;
 import com.barton.sbc.domain.entity.auth.AuthPermission;
 import com.barton.sbc.domain.entity.auth.AuthUser;
@@ -16,6 +16,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -42,8 +43,8 @@ public class PermissionController {
      * @return
      */
     @PostMapping("/save")
-    @SysLogAnnotation(value = "保存菜单信息",type = SysLogAnnotation.SysLogType.SAVE)
-    public ServerResponse save(AuthPermission authPermission){
+    @SysLog(value = "保存菜单信息",type = SysLog.SysLogType.SAVE)
+    public ServerResponse save(@Valid AuthPermission authPermission){
         if(authPermission == null){
             return ServerResponse.createByErrorMessage("保存失败！");
         }
@@ -81,7 +82,7 @@ public class PermissionController {
      * @return
      */
     @GetMapping("/delete")
-    @SysLogAnnotation(value = "删除菜单信息",type = SysLogAnnotation.SysLogType.DELETE)
+    @SysLog(value = "删除菜单信息",type = SysLog.SysLogType.DELETE)
     public ServerResponse deleteById(@RequestParam String id){
         if(authPermissionService.deleteById(id) > 0){
             return ServerResponse.createBySuccessMessage("删除成功");

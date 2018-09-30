@@ -1,7 +1,7 @@
 package com.barton.sbc.aspect;
 
 import com.alibaba.fastjson.JSON;
-import com.barton.sbc.annotation.SysLogAnnotation;
+import com.barton.sbc.annotation.SysLog;
 import com.barton.sbc.domain.entity.auth.AuthUser;
 import com.barton.sbc.utils.CurrentUserUtil;
 import org.aspectj.lang.JoinPoint;
@@ -19,12 +19,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class SysLogAspect {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    //controller 包下的所有注解(SysLogAnnotation)
-    @Pointcut("execution(public * com.barton.sbc.controller.*.*(..)) && @annotation(com.barton.sbc.annotation.SysLogAnnotation)")
+    //controller 包下的所有注解(SysLog)
+    @Pointcut("execution(public * com.barton.sbc.controller.*.*(..)) && @annotation(com.barton.sbc.annotation.SysLog)")
     public void cut(){}
 
     @Before("cut() && @annotation(sysLog)")
-    public void before(JoinPoint joinPoint, SysLogAnnotation sysLog) {
+    public void before(JoinPoint joinPoint, SysLog sysLog) {
         AuthUser currentUser = CurrentUserUtil.getAuthUser();
         System.out.print("打印：" + sysLog.value());
         System.out.print("打印：" + sysLog.type());

@@ -12,7 +12,7 @@ import java.lang.annotation.Documented;
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface SysLogAnnotation {
+public @interface SysLog {
     //操作描述
     String value() default "";
     //操作类型

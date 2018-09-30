@@ -2,6 +2,8 @@ package com.barton.sbc.domain.entity.auth;
 
 import com.barton.sbc.utils.InheritedNode;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,41 +17,49 @@ public class AuthPermission implements InheritedNode<AuthPermission> {
     /**
      * 权限名称
      */
+    @NotEmpty
     private String name;
 
     /**
      * 权限类型
      */
+    @NotEmpty
     private String type;
 
     /**
      * 图标名称
      */
+    @NotEmpty
     private String icon;
 
     /**
      * vue 模块
      */
+    @NotEmpty
     private String component;
 
     /**
      * 路径匹配规则
      */
+    @NotEmpty
     private String url;
 
     /**
      * q前端访问路径
      */
+    @NotEmpty
     private String path;
 
     /**
      * 父级菜单编号
      */
+    @NotEmpty
     private String parentId;
 
     /**
      * 序号
      */
+    @NotNull
     private Integer orderId;
 
     /**
