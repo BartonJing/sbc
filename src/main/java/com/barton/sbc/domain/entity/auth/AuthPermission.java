@@ -4,6 +4,7 @@ import com.barton.sbc.utils.InheritedNode;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,15 +93,15 @@ public class AuthPermission implements InheritedNode<AuthPermission> {
      */
     private String userModified;
 
-
     private List<AuthPermission> children;
 
     public AuthPermission() {
     }
 
-    public AuthPermission(String id, String parentId) {
+    public AuthPermission(String id, String parentId,String name) {
         this.id = id;
         this.parentId = parentId;
+        this.name = name;
     }
 
     @Override
@@ -244,5 +245,13 @@ public class AuthPermission implements InheritedNode<AuthPermission> {
 
     public void setUserModified(String userModified) {
         this.userModified = userModified == null ? null : userModified.trim();
+    }
+
+    public List<AuthPermission> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<AuthPermission> children) {
+        this.children = children;
     }
 }

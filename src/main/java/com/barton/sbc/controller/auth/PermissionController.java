@@ -1,5 +1,6 @@
 package com.barton.sbc.controller.auth;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.barton.sbc.annotation.SysLog;
 import com.barton.sbc.common.ServerResponse;
@@ -13,13 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/auth/permission")
@@ -44,18 +44,19 @@ public class PermissionController {
      */
     @PostMapping("/save")
     @SysLog(value = "保存菜单信息",type = SysLog.SysLogType.SAVE)
-    public ServerResponse save(@Valid AuthPermission authPermission){
+    public ServerResponse save(@Validated @RequestBody AuthPermission authPermission){
         if(authPermission == null){
             return ServerResponse.createByErrorMessage("保存失败！");
         }
         //添加
         if(StrUtil.isEmpty(authPermission.getId())){
+            authPermission.setId(RandomUtil.randomUUID());
             authPermission.setGmtCreate(new Date());
             authPermission.setGmtModified(new Date());
             authPermission.setUserCreate(currentUser.getId());
             authPermission.setUserModified(currentUser.getId());
             if((authPermissionService.insert(authPermission)) != null){
-                return ServerResponse.createBySuccess("添加成功！");
+                return ServerResponse.createBySuccessMessage("添加成功！");
             }
         }else{//修改
             authPermission.setGmtModified(new Date());
@@ -114,14 +115,23 @@ public class PermissionController {
 
     /**
      * 查询所有权限（树型菜单）
+     * @param hasRoot 1：带根节点 其他：不带根几点
      * @return
      */
-    @PostMapping("/selectAllPermissionToTree")
-    public List<AuthPermission> selectAllPermissionToTree(){
+    @GetMapping("/selectAllPermissionToTree")
+    public List<AuthPermission> selectAllPermissionToTree(Integer hasRoot){
         List<AuthPermission> aps = authPermissionService.findAll();
-        AuthPermission root = new AuthPermission("0",null);
+        AuthPermission root = new AuthPermission("0",null,"菜单");
         root = TreeUtil.getTree(root,aps);
-        return root.getChildNodes();
+        if(hasRoot == 1){
+            aps = new ArrayList<AuthPermission>();
+
+            aps.add(root);
+            return aps;
+        }else{
+            return root.getChildNodes();
+        }
+
     }
 
 

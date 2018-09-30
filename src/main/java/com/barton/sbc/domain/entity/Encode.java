@@ -9,7 +9,7 @@ public class Encode extends BaseDomain implements InheritedNode<Encode> {
     /**
      * 
      */
-    private Integer id;
+    private String id;
 
     /**
      * 类型
@@ -78,7 +78,7 @@ public class Encode extends BaseDomain implements InheritedNode<Encode> {
     public Encode() {
     }
 
-    public Encode(Integer id, String parentId) {
+    public Encode(String id, String parentId) {
         this.id = id;
         this.parentId = parentId;
     }
@@ -106,11 +106,11 @@ public class Encode extends BaseDomain implements InheritedNode<Encode> {
         return children;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -208,5 +208,13 @@ public class Encode extends BaseDomain implements InheritedNode<Encode> {
 
     public void setExtendC(String extendC) {
         this.extendC = extendC == null ? null : extendC.trim();
+    }
+
+    public List<Encode> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Encode> children) {
+        this.children = children;
     }
 }

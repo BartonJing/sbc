@@ -44,7 +44,7 @@ public class TreeUtil {
         traversalList.push(root);
         // 原始集合不为空，则继续迭代，将其中的元素加入到树的广度遍历结果集合中  
         while (list.size() != 0) {
-            // 迭代原始集合中的元素  
+            // 迭代原始集合中的元素
             Iterator<T> iterAll = list.iterator();
             while (iterAll.hasNext()) {
                 T ndInAll = iterAll.next();

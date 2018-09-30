@@ -20,7 +20,7 @@ import java.util.*;
  * Created by barton on 2018/09/28.
  */
 @RestController
-@RequestMapping(value = "/sys/encode/")
+@RequestMapping(value = "/sys/encode")
 public class EncodeController {
     private static final Logger logger = LoggerFactory.getLogger(EncodeController.class);
     @Autowired
@@ -67,7 +67,7 @@ public class EncodeController {
      * @return
      */
     public List<Encode> listToTree(List<Encode> list){
-        Encode root = new Encode(0,null);
+        Encode root = new Encode("0",null);
         root = TreeUtil.getTree(root,list);
         return root.getChildNodes();
     }

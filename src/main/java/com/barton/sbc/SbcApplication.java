@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 //@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
 @SpringBootApplication
-@MapperScan("com.barton.sbc.dao.auth")
+@MapperScan("com.barton.sbc.dao")
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 public class SbcApplication {

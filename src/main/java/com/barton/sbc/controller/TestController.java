@@ -27,6 +27,10 @@ public class TestController {
         AuthUser authUser = CurrentUserUtil.getAuthUser();
         return "index success";
     }
+    @GetMapping("/favicon.ico")
+    public void favicon(){
+
+    }
 
 
     @GetMapping("/test1")

@@ -20,15 +20,15 @@
     id, kind, kind_name, encode, encode_name, parent_id, enable, order_id, simple_spelling, 
     full_spelling, extend_a, extend_b, extend_c
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sys_encode
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sys_encode
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.barton.sbc.domain.entity.Encode" >
     insert into sys_encode (id, kind, kind_name, 
@@ -36,7 +36,7 @@
       enable, order_id, simple_spelling, 
       full_spelling, extend_a, extend_b, 
       extend_c)
-    values (#{id,jdbcType=INTEGER}, #{kind,jdbcType=VARCHAR}, #{kindName,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{kind,jdbcType=VARCHAR}, #{kindName,jdbcType=VARCHAR},
       #{encode,jdbcType=VARCHAR}, #{encodeName,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
       #{enable,jdbcType=VARCHAR}, #{orderId,jdbcType=INTEGER}, #{simpleSpelling,jdbcType=VARCHAR}, 
       #{fullSpelling,jdbcType=VARCHAR}, #{extendA,jdbcType=VARCHAR}, #{extendB,jdbcType=VARCHAR}, 
@@ -87,7 +87,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="kind != null" >
         #{kind,jdbcType=VARCHAR},
@@ -167,7 +167,7 @@
         extend_c = #{extendC,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.barton.sbc.domain.entity.Encode" >
     update sys_encode
@@ -183,7 +183,7 @@
       extend_a = #{extendA,jdbcType=VARCHAR},
       extend_b = #{extendB,jdbcType=VARCHAR},
       extend_c = #{extendC,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByKind" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
