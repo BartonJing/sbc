@@ -2,6 +2,7 @@ package com.barton.sbc.domain.entity.auth;
 
 import com.barton.sbc.domain.entity.BaseDomain;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class AuthRole extends BaseDomain {
@@ -13,16 +14,19 @@ public class AuthRole extends BaseDomain {
     /**
      * 角色名称
      */
+    @NotNull
     private String roleName;
 
     /**
      * 角色代码
      */
+    @NotNull
     private String roleCode;
 
     /**
      * 
      */
+    @NotNull
     private Integer level;
 
     /**

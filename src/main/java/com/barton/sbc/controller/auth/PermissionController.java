@@ -108,7 +108,7 @@ public class PermissionController {
      * @param roleId
      * @return
      */
-    @PostMapping("/selectPermissionsByRoleId")
+    @GetMapping("/selectPermissionsByRoleId")
     public List<AuthPermission> selectPermissionsByRoleId(@RequestParam String roleId){
         return authPermissionService.selectByRoleId(roleId);
     }
@@ -125,7 +125,6 @@ public class PermissionController {
         root = TreeUtil.getTree(root,aps);
         if(hasRoot == 1){
             aps = new ArrayList<AuthPermission>();
-
             aps.add(root);
             return aps;
         }else{

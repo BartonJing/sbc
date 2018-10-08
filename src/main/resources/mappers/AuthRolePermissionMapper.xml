@@ -28,8 +28,7 @@
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
   <insert id ="batchInsert" parameterType="java.util.List" >
-    insert into auth_role_permission (id, role_id, permission_id,
-    gmt_create, gmt_modified)
+    insert into auth_role_permission
     values
     <foreach collection ="list" item="rolePermission" index= "index" separator =",">
       (
