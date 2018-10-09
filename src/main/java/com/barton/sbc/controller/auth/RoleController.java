@@ -96,6 +96,15 @@ public class RoleController {
     }
 
     /**
+     * 查询 所有的权限
+     *
+     * @return
+     */
+    @GetMapping("/selectAllRoles")
+    public List<AuthRole> selectAllRoles() {
+        return authRoleService.selectByParams(null);
+    }
+    /**
      * 查询
      *
      * @param id
@@ -105,7 +114,6 @@ public class RoleController {
     public AuthRole selectById(@RequestParam String id) {
         return authRoleService.selectById(id);
     }
-
     /**
      * 查询
      *
@@ -125,7 +133,7 @@ public class RoleController {
      * @param userId
      * @return
      */
-    @PostMapping("/selectRolesByUserId")
+    @GetMapping("/selectRolesByUserId")
     public List<AuthRole> selectRolesByUserId(@RequestParam String userId) {
         return authRoleService.selectByUserId(userId);
     }

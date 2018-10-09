@@ -35,11 +35,15 @@ public class AuthUser extends BaseDomain implements Serializable,UserDetails {
      */
     @NotEmpty
     private String password;
-
     /**
      * 原始密码
      */
     private String originPassword;
+
+    /**
+     * 原始密码
+     */
+    private String passwordC;
 
     /**
      * 是否锁定
@@ -199,16 +203,24 @@ public class AuthUser extends BaseDomain implements Serializable,UserDetails {
         this.userModified = userModified == null ? null : userModified.trim();
     }
 
+    public String getPasswordC() {
+        return passwordC;
+    }
+
+    public void setPasswordC(String passwordC) {
+        this.passwordC = passwordC;
+    }
+
+    public void setAuthorities(Collection<SimpleGrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
     public String getOriginPassword() {
         return originPassword;
     }
 
     public void setOriginPassword(String originPassword) {
         this.originPassword = originPassword;
-    }
-
-    public void setAuthorities(Collection<SimpleGrantedAuthority> authorities) {
-        this.authorities = authorities;
     }
 
     public AuthUser findUser(){

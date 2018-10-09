@@ -28,13 +28,12 @@
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
   <insert id ="batchInsert" parameterType="java.util.List" >
-    insert into id, user_id, role_id,
-    gmt_create, gmt_modified)
+    insert into auth_user_role
     values
     <foreach collection ="list" item="userRole" index= "index" separator =",">
       (
       #{userRole.id,jdbcType=VARCHAR}, #{userRole.userId,jdbcType=VARCHAR}, #{userRole.roleId,jdbcType=VARCHAR},
-      #{userRole.gmtCreate,jdbcType=TIMESTAMP}, #{guserRole.mtModified,jdbcType=TIMESTAMP}
+      #{userRole.gmtCreate,jdbcType=TIMESTAMP}, #{userRole.gmtModified,jdbcType=TIMESTAMP}
       )
     </foreach >
   </insert >
@@ -109,7 +108,7 @@
 
   <delete id="deleteByUserId" parameterType="java.lang.String" >
     delete from auth_user_role
-    where user_id = #{userId,jdbcType=VARCHAR} and role_id = #{roleId,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByRoleId" parameterType="java.lang.String" >
     delete from auth_user_role

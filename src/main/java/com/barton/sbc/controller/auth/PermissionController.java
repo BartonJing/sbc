@@ -133,6 +133,17 @@ public class PermissionController {
 
     }
 
+    /**
+     * 查询用户权限信息
+     * @param userId
+     * @return
+     */
+    @GetMapping("/selectUserPermissions")
+    public List<AuthPermission> selectUserPermissions(@RequestParam String userId){
+        List<AuthPermission> authPermissions = authPermissionService.selectByUserId(userId);
+        return authPermissions;
+    }
+
 
 
 

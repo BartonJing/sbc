@@ -52,3 +52,6 @@ spring:
       enabled: true
       max-file-size: 10Mb
       max-request-size: 10Mb
+logging:
+  level:
+    com.barton.sbc.dao: debug
