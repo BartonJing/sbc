@@ -1,5 +1,7 @@
 package com.barton.sbc.controller.auth;
 
+import cn.hutool.core.util.StrUtil;
+import com.barton.sbc.annotation.SysLog;
 import com.barton.sbc.common.ServerResponse;
 import com.barton.sbc.domain.entity.auth.AuthUser;
 import com.barton.sbc.service.auth.AuthUserService;
@@ -12,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -30,20 +33,37 @@ public class UserController {
     }
 
     /**
-     * 添加
+     * 添加/修改
+     *
      * @param authUser
      * @return
      */
-    @PostMapping("/insert")
-    public ServerResponse insert(AuthUser authUser){
-        authUser.setPassword(new BCryptPasswordEncoder().encode(authUser.getUsername()));
-        authUser.setLocked("0");
-        authUser.setGmtCreate(new Date());
-        authUser.setUserCreate(currentUser.getId());
-        if((authUser = authUserService.insert(authUser)) != null){
-            return ServerResponse.createBySuccess(authUser);
+    @PostMapping("/save")
+    @SysLog(value = "保存用户信息", type = SysLog.SysLogType.SAVE)
+    public ServerResponse insert(@Validated @RequestBody AuthUser authUser){
+        if(authUser == null){
+            return ServerResponse.createByErrorMessage("保存失败，参数为空");
         }
-        return ServerResponse.createByErrorMessage("添加失败");
+        //添加
+        if(StrUtil.isEmpty(authUser.getId())){
+            //判断此用户是否已经添加
+            AuthUser authUserOld = authUserService.selectByUserName(authUser.getUsername());
+            if(authUserOld != null){
+                return ServerResponse.createByErrorMessage("添加失败，此用户已经存在");
+            }
+            authUser.setPassword(new BCryptPasswordEncoder().encode(authUser.getPassword()));
+            authUser.setGmtCreate(new Date());
+            authUser.setUserCreate(currentUser.getId());
+            authUser.setGmtModified(new Date());
+            authUser.setUserModified(currentUser.getId());
+            authUserService.insert(authUser);
+        }else{//修改
+            authUser.setPassword(null);
+            authUser.setGmtModified(new Date());
+            authUser.setUserModified(currentUser.getId());
+            authUserService.updateById(authUser);
+        }
+        return ServerResponse.createBySuccessMessage("保存成功！");
     }
 
 
@@ -61,34 +81,17 @@ public class UserController {
     }
 
     /**
-     * 不可用
+     * 锁定账户
      * @param id
      * @return
      */
-    @GetMapping("/changeLocked")
-    public ServerResponse changeLocked(@RequestParam String id){
+    @PostMapping("/changeLocked")
+    public ServerResponse changeLocked(@RequestParam String id, @RequestParam String locked){
         AuthUser authUser = new AuthUser();
         authUser.setId(id);
-        authUser.setLocked("1");
+        authUser.setLocked(locked);
         authUserService.updateById(authUser);
-        return ServerResponse.createByErrorMessage("修改成功");
-    }
-
-
-    /**
-     * 修改
-     * @param authUser
-     * @return
-     */
-    @PostMapping("/update")
-    public ServerResponse updateById(@RequestBody AuthUser authUser){
-        authUser.setPassword(null);
-        authUser.setGmtModified(new Date());
-        authUser.setUserModified(currentUser.getId());
-        if(authUserService.updateById(authUser) != null){
-            return ServerResponse.createBySuccessMessage("修改成功");
-        }
-        return ServerResponse.createByErrorMessage("修改失败");
+        return ServerResponse.createBySuccessMessage("修改成功");
     }
 
     /**
@@ -116,12 +119,13 @@ public class UserController {
 
     /**
      * 查询
-     * @param authUser
+     * @param pageNum
+     * @param pageSize
      * @return
      */
-    @PostMapping("/selectPage")
-    public PageInfo<AuthUser> selectPage(@RequestParam Integer page, @RequestParam Integer pageSize, @RequestBody AuthUser authUser){
-        return authUserService.selectPage(page,pageSize,null);
+    @GetMapping("/selectPage")
+    public PageInfo<AuthUser> selectPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize){
+        return authUserService.selectPage(pageNum,pageSize,null);
     }
 
     /**

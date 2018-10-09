@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,16 +21,19 @@ public class AuthUser extends BaseDomain implements Serializable,UserDetails {
     /**
      * 姓名
      */
+    @NotEmpty
     private String name;
 
     /**
      * 用户名
      */
+    @NotEmpty
     private String username;
 
     /**
      * 密码
      */
+    @NotEmpty
     private String password;
 
     /**
