@@ -65,6 +65,12 @@ public interface AuthPermissionService {
     List<AuthPermission> selectByUserId(String userId);
 
     /**
+     * 查询用户的权限列表
+     * @param username
+     * @return
+     */
+    List<AuthPermission> selectByUsername(String username);
+    /**
      * 查询角色的权限列表
      * @return
      */

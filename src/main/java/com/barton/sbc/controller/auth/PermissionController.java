@@ -144,6 +144,19 @@ public class PermissionController {
         return authPermissions;
     }
 
+    /**
+     * 查询用户权限信息树结构
+     * @param userId
+     * @return
+     */
+    @GetMapping("/selectUserPermissionsTree")
+    public List<AuthPermission> selectUserPermissionsTree(@RequestParam String userId){
+        List<AuthPermission> authPermissions = authPermissionService.selectByUserId(userId);
+        AuthPermission root = new AuthPermission("0",null,"菜单");
+        root = TreeUtil.getTree(root,authPermissions);
+        return root.getChildNodes();
+    }
+
 
 
 

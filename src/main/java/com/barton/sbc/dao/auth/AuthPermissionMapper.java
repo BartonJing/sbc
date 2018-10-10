@@ -25,6 +25,8 @@ public interface AuthPermissionMapper {
 
     List<AuthPermission> selectByUserId(String userId);
 
+    List<AuthPermission> selectByUsername(String username);
+
     List<AuthPermission> selectByRoleId(String roleId);
 
 }

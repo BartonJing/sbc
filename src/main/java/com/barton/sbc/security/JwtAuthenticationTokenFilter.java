@@ -114,7 +114,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         List<AuthPermission> permissions = authPermissionMapper.findAll();
         AntPathMatcher matcher = new AntPathMatcher();
         for(AuthPermission permission : permissions) {
-            if(matcher.match(permission.getPath(),url)) {
+            if(matcher.match(permission.getUrl(),url)) {
                 return true;
             }
         }

@@ -69,6 +69,11 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
     }
 
     @Override
+    public List<AuthPermission> selectByUsername(String username) {
+        return authPermissionMapper.selectByUsername(username);
+    }
+
+    @Override
     public List<AuthPermission> selectByRoleId(String roleId) {
         return authPermissionMapper.selectByRoleId(roleId);
     }
