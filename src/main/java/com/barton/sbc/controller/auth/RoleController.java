@@ -37,12 +37,10 @@ public class RoleController {
 
     private static AuthUser currentUser;
 
-    {
-        currentUser = CurrentUserUtil.getAuthUser();
-    }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
+        currentUser = CurrentUserUtil.getAuthUser();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));   //true:允许输入空值，false:不能为空值

@@ -40,32 +40,35 @@ public class AuthUserServiceImpl implements AuthUserService {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private AuthPermissionService authPermissionService;
-    @Autowired
-    private AuthUserService authUserService;
+    ;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //获取用户信息
-        AuthUser authUser = new AuthUser();
+        AuthUser authUser;
         authUser = selectByUserName(username);
+        if (authUser == null) {
+            throw new UsernameNotFoundException("用户名称不正确!");
+        }
+        if ("1".equals(authUser.getLocked())) {
+            throw new UsernameNotFoundException("用户已锁定!");
+        }
         //查询权限信息
-        List<AuthPermission> authPermissions = authPermissionService.selectByUserId(username);
+        List<AuthPermission> authPermissions = authPermissionService.selectByUsername(username);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        if(CollectionUtil.isNotEmpty(authPermissions)){
-            for(AuthPermission ap:authPermissions){
+        if (CollectionUtil.isNotEmpty(authPermissions)) {
+            for (AuthPermission ap : authPermissions) {
                 authorities.add(new SimpleGrantedAuthority(ap.getUrl()));
                 authUser.setAuthorities(authorities);
             }
         }
 
-        if(authUser == null){
-            throw new UsernameNotFoundException("用户名称不正确!");
-        }
         return authUser;
     }
 
     @Override
     public AuthUser insert(AuthUser authUser) {
-        if(authUserMapper.insert(authUser) > 0){
+        if (authUserMapper.insert(authUser) > 0) {
             return authUser;
         }
         return null;
@@ -73,7 +76,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     public AuthUser updateById(AuthUser authUser) {
-        if(authUserMapper.updateByPrimaryKeySelective(authUser) > 0){
+        if (authUserMapper.updateByPrimaryKeySelective(authUser) > 0) {
             return authUser;
         }
         return null;
@@ -98,7 +101,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     public PageInfo<AuthUser> selectPage(Integer page, Integer pageSize, Map<String, Object> params) {
-        PageHelper.startPage(page,pageSize);
+        PageHelper.startPage(page, pageSize);
         PageInfo<AuthUser> pageInfo = new PageInfo<AuthUser>(selectByParams(params));
         return pageInfo;
     }
@@ -119,8 +122,8 @@ public class AuthUserServiceImpl implements AuthUserService {
     }
 
     @Override
-    public int deleteUserRoleByUserIdAndRoleId(String userId,String roleId) {
-        return authUserRoleMapper.deleteByUserIdAndRoleId(userId,roleId);
+    public int deleteUserRoleByUserIdAndRoleId(String userId, String roleId) {
+        return authUserRoleMapper.deleteByUserIdAndRoleId(userId, roleId);
     }
 
     @Override
@@ -141,10 +144,11 @@ public class AuthUserServiceImpl implements AuthUserService {
         Authentication authentication = authenticationManager.authenticate(upToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //final UserDetails userDetails = authUserService.loadUserByUsername(username);
-        UserDetails userDetails = new AuthUser(username,password);
+        UserDetails userDetails = new AuthUser(username, password);
         return jwtTokenUtil.generateToken(userDetails);
 
     }
+
     /**
      * 用户注册
      *
@@ -166,6 +170,7 @@ public class AuthUserServiceImpl implements AuthUserService {
         //userRepository.insert(user);
         return "success";
     }
+
     /**
      * 刷新密钥
      *

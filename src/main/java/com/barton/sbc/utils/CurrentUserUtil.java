@@ -23,7 +23,7 @@ public class CurrentUserUtil {
             }
         }
         AuthUser authUser = new AuthUser();
-        authUser.setId("aaaaaaaaaaa");
+        /*authUser.setId("aaaaaaaaaaa");*/
         return authUser;
     }
 }

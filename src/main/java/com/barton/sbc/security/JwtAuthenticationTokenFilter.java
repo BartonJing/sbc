@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * Token过滤器
- *
+ * <p>
  * Created on 2018/9/10
  */
 @Component
@@ -45,76 +45,79 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         boolean flag = true;
         String[] antMatchers = WebSecurityConfig.antMatchers;
         AntPathMatcher antPathMatcher = new AntPathMatcher();
-        for(String pattern:antMatchers){
+        for (String pattern : antMatchers) {
             String url = request.getRequestURI();
-            if(antPathMatcher.match(pattern, url)){
+            if (antPathMatcher.match(pattern, url)) {
                 flag = false;
                 break;
             }
             continue;
         }
 
-        if(flag){
+        if (flag) {
             //1.token　验证
             String authHeader = request.getHeader("Authorization");
             String tokenHead = "Bearer ";
             if (authHeader != null && authHeader.startsWith(tokenHead)) {
                 String authToken = authHeader.substring(tokenHead.length());
                 String username = jwtTokenUtil.getUsernameFromToken(authToken);
-                if(username == null){
-                    throwException(request,response, ResponseCode.AUTHERROR.getCode(),"token验证失败");
+                if (username == null) {
+                    throwException(request, response, ResponseCode.AUTHERROR.getCode(), "token验证失败");
                 }
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = this.authUserService.loadUserByUsername(username);
                     int validateRes = jwtTokenUtil.validateTokenDetail(authToken, userDetails);
                     if (validateRes > 0) {
                         //是否需要进行权限验证
-                        if(isPermissionCheck(request.getRequestURI())){
+                        if (isPermissionCheck(request.getRequestURI())) {
+                            if (userDetails.getAuthorities() == null) {
+                                throwException(request, response, ResponseCode.AUTHERROR.getCode(), "没有相关权限");
+                            }
                             //是否有权限
-                            if(!isPermission(request.getRequestURI(),userDetails.getAuthorities())){
-                                throwException(request,response,ResponseCode.NOPERMISSION.getCode(),"没有权限");
+                            if (!isPermission(request.getRequestURI(), userDetails.getAuthorities())) {
+                                throwException(request, response, ResponseCode.NOPERMISSION.getCode(), "没有权限");
                             }
                         }
 
-                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null,userDetails.getAuthorities());
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
 
-                        authentication.setDetails(authUserService.loadUserByUsername(username));
+                        authentication.setDetails(userDetails);
                         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                        if(validateRes == 1){
+                        if (validateRes == 1) {
                             //刷新token
-                            response.addHeader("newtoken",jwtTokenUtil.refreshToken(authToken));
+                            response.addHeader("newtoken", jwtTokenUtil.refreshToken(authToken));
                         }
 
-                    }else{
-                        throwException(request,response,ResponseCode.AUTHERROR.getCode(),"token验证失败");
+                    } else {
+                        throwException(request, response, ResponseCode.AUTHERROR.getCode(), "token验证失败");
                     }
                 }
-            }else{
-                throwException(request,response,ResponseCode.MEEDLOGIN.getCode(),"此操作必须先登录");
+            } else {
+                throwException(request, response, ResponseCode.MEEDLOGIN.getCode(), "此操作必须先登录");
             }
         }
 
         chain.doFilter(request, response);
     }
 
-    private void throwException(HttpServletRequest request, HttpServletResponse response,int code, String msg)throws ServletException, IOException{
+    private void throwException(HttpServletRequest request, HttpServletResponse response, int code, String msg) throws ServletException, IOException {
         try {
-            throw new MyAuthenticationException(code,msg);
+            throw new MyAuthenticationException(code, msg);
         } catch (MyAuthenticationException e) {
             authenticationFailureHandler.onAuthenticationFailure(request, response, e);
-            return ;
+            return;
         }
     }
 
     /**
      * 判断　url 是否要进行权限验证
      */
-    public boolean isPermissionCheck(String url){
+    public boolean isPermissionCheck(String url) {
         List<AuthPermission> permissions = authPermissionMapper.findAll();
         AntPathMatcher matcher = new AntPathMatcher();
-        for(AuthPermission permission : permissions) {
-            if(matcher.match(permission.getUrl(),url)) {
+        for (AuthPermission permission : permissions) {
+            if (matcher.match(permission.getUrl(), url)) {
                 return true;
             }
         }
@@ -124,10 +127,10 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     /**
      * 验证 url 是否有权限
      */
-    public boolean isPermission(String url, Collection<? extends GrantedAuthority> authorities){
+    public boolean isPermission(String url, Collection<? extends GrantedAuthority> authorities) {
         AntPathMatcher matcher = new AntPathMatcher();
-        for(GrantedAuthority authoritie : authorities) {
-            if(matcher.match(authoritie.getAuthority(),url)) {
+        for (GrantedAuthority authoritie : authorities) {
+            if (matcher.match(authoritie.getAuthority(), url)) {
                 return true;
             }
         }
