@@ -97,7 +97,7 @@ public interface AuthUserService extends UserDetailsService {
      * @param password 密码
      * @return 操作结果
      */
-    String login(String username, String password);
+    Map<String,Object> login(String username, String password);
 
     /**
      * 用户注册

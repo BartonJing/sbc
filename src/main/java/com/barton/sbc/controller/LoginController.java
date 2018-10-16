@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * Created by barton on 2018/07/22.
  */
@@ -24,8 +26,22 @@ public class LoginController {
      * @throws AuthenticationException 错误信息
      */
     @PostMapping(value = "/login", params = {"username", "password"})
-    public String getToken(String username, String password) throws AuthenticationException {
+    @ResponseBody
+    public Map<String,Object> getToken(String username, String password) throws AuthenticationException {
         return authUserService.login(username, password);
+    }
+
+
+    /**
+     * 注销
+     *
+     * @return 操作结果
+     * @throws AuthenticationException 错误信息
+     */
+    @PostMapping(value = "/logout")
+    @ResponseBody
+    public Map<String,Object> logout() throws AuthenticationException {
+        return null;
     }
 
     /**
@@ -51,8 +67,5 @@ public class LoginController {
     public String refreshToken(@RequestHeader String authorization) throws AuthenticationException {
         return authUserService.refreshToken(authorization);
     }
-
-
-
 
 }

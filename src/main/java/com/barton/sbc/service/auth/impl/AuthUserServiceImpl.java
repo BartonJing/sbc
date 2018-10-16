@@ -22,11 +22,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AuthUserServiceImpl implements AuthUserService {
@@ -139,13 +137,17 @@ public class AuthUserServiceImpl implements AuthUserService {
      * @return 操作结果
      */
     @Override
-    public String login(String username, String password) {
+    public Map<String,Object> login(String username, String password) {
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(upToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //final UserDetails userDetails = authUserService.loadUserByUsername(username);
         UserDetails userDetails = new AuthUser(username, password);
-        return jwtTokenUtil.generateToken(userDetails);
+        Map<String,Object> map = new HashMap<String,Object>();
+        String token = jwtTokenUtil.generateToken(userDetails);
+        map.put("token",token);
+        map.put("authUser",authentication);
+        return map;
 
     }
 
