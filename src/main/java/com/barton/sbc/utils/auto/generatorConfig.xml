@@ -134,7 +134,7 @@
 
         注意，table里面很多参数都是对javaModelGenerator，context等元素的默认属性的一个复写；
      -->
-		<table tableName="sys_encode" domainObjectName="Encode"
+		<table tableName="sys_schedule_config" domainObjectName="ScheduleConfig"
 			   enableCountByExample="false" enableUpdateByExample="false"
 			   enableDeleteByExample="false" enableSelectByExample="false"
 			   selectByExampleQueryId="false"></table>

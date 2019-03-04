@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.barton.sbc.dao.ScheduleConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.barton.sbc.domain.entity.ScheduleConfig" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="schedule_class" property="scheduleClass" jdbcType="VARCHAR" />
+    <result column="schedule_status" property="scheduleStatus" jdbcType="VARCHAR" />
+    <result column="schedule_cron" property="scheduleCron" jdbcType="VARCHAR" />
+    <result column="schedule_remark" property="scheduleRemark" jdbcType="VARCHAR" />
+    <result column="field_1" property="field1" jdbcType="VARCHAR" />
+    <result column="field_2" property="field2" jdbcType="VARCHAR" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <result column="user_create" property="userCreate" jdbcType="VARCHAR" />
+    <result column="user_modified" property="userModified" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, schedule_class, schedule_status, schedule_cron, schedule_remark, field_1, field_2, 
+    gmt_create, gmt_modified, user_create, user_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_schedule_config
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_schedule_config
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.barton.sbc.domain.entity.ScheduleConfig" >
+    insert into sys_schedule_config (id, schedule_class, schedule_status, 
+      schedule_cron, schedule_remark, field_1, 
+      field_2, gmt_create, gmt_modified, 
+      user_create, user_modified)
+    values (#{id,jdbcType=VARCHAR}, #{scheduleClass,jdbcType=VARCHAR}, #{scheduleStatus,jdbcType=VARCHAR}, 
+      #{scheduleCron,jdbcType=VARCHAR}, #{scheduleRemark,jdbcType=VARCHAR}, #{field1,jdbcType=VARCHAR}, 
+      #{field2,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{userCreate,jdbcType=VARCHAR}, #{userModified,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.barton.sbc.domain.entity.ScheduleConfig" >
+    insert into sys_schedule_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="scheduleClass != null" >
+        schedule_class,
+      </if>
+      <if test="scheduleStatus != null" >
+        schedule_status,
+      </if>
+      <if test="scheduleCron != null" >
+        schedule_cron,
+      </if>
+      <if test="scheduleRemark != null" >
+        schedule_remark,
+      </if>
+      <if test="field1 != null" >
+        field_1,
+      </if>
+      <if test="field2 != null" >
+        field_2,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+      <if test="userCreate != null" >
+        user_create,
+      </if>
+      <if test="userModified != null" >
+        user_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleClass != null" >
+        #{scheduleClass,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleStatus != null" >
+        #{scheduleStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleCron != null" >
+        #{scheduleCron,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleRemark != null" >
+        #{scheduleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userCreate != null" >
+        #{userCreate,jdbcType=VARCHAR},
+      </if>
+      <if test="userModified != null" >
+        #{userModified,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.barton.sbc.domain.entity.ScheduleConfig" >
+    update sys_schedule_config
+    <set >
+      <if test="scheduleClass != null" >
+        schedule_class = #{scheduleClass,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleStatus != null" >
+        schedule_status = #{scheduleStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleCron != null" >
+        schedule_cron = #{scheduleCron,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleRemark != null" >
+        schedule_remark = #{scheduleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        field_1 = #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        field_2 = #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userCreate != null" >
+        user_create = #{userCreate,jdbcType=VARCHAR},
+      </if>
+      <if test="userModified != null" >
+        user_modified = #{userModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.barton.sbc.domain.entity.ScheduleConfig" >
+    update sys_schedule_config
+    set schedule_class = #{scheduleClass,jdbcType=VARCHAR},
+      schedule_status = #{scheduleStatus,jdbcType=VARCHAR},
+      schedule_cron = #{scheduleCron,jdbcType=VARCHAR},
+      schedule_remark = #{scheduleRemark,jdbcType=VARCHAR},
+      field_1 = #{field1,jdbcType=VARCHAR},
+      field_2 = #{field2,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      user_create = #{userCreate,jdbcType=VARCHAR},
+      user_modified = #{userModified,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_schedule_config
+  </select>
+</mapper>
