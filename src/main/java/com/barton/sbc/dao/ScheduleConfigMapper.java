@@ -18,4 +18,6 @@ public interface ScheduleConfigMapper {
     int updateByPrimaryKey(ScheduleConfig record);
 
     List<ScheduleConfig> selectAll();
+
+    ScheduleConfig selectByClass(String scheduleClass);
 }

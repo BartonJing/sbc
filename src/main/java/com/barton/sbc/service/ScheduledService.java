@@ -10,6 +10,12 @@ public interface ScheduledService {
     int update(ScheduleConfig config);
 
     List<ScheduleConfig> selectAll();
+
+    ScheduleConfig selectByClass(String scheduleClass);
+
+    ScheduleConfig selectById(String id);
+
+    int deleteById(String id);
     /**
      * 修改定时任务批量 批量
      * @param configList

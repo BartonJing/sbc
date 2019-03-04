@@ -3,6 +3,10 @@ package com.barton.sbc.domain.entity;
 import java.util.Date;
 
 public class ScheduleConfig extends BaseDomain {
+    public static final String START = "1";
+    public static final String STOP = "0";
+
+
     /**
      * 
      */

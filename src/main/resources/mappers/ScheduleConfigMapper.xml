@@ -166,4 +166,10 @@
     <include refid="Base_Column_List" />
     from sys_schedule_config
   </select>
+  <select id="selectByClass" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_schedule_config
+    where schedule_class = #{selectByClass,jdbcType=VARCHAR}
+  </select>
 </mapper>
