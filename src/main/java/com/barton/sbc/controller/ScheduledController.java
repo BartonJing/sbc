@@ -8,7 +8,6 @@ import com.barton.sbc.service.ScheduledService;
 import com.barton.sbc.utils.CurrentUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +42,7 @@ public class ScheduledController {
     }
     /**
      * 保存定时任务配置信息
-     *
+     * @param scheduleConfig
      * @return 操作结果
      */
     @PostMapping(value = "/save")
@@ -68,6 +67,7 @@ public class ScheduledController {
 
     /**
      * 删除定时任务
+     * @param id
      * @return ServerResponse
      */
     @GetMapping(value = "/delete")
@@ -78,7 +78,7 @@ public class ScheduledController {
         //修改 定时任务
         scheduledService.scheduleChange(config);
         scheduledService.deleteById(id);
-        return ServerResponse.createBySuccessMessage("保存成功！");
+        return ServerResponse.createBySuccessMessage("删除成功！");
     }
 
     /**
