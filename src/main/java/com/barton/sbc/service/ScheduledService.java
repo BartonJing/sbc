@@ -10,6 +10,14 @@ public interface ScheduledService {
     int update(ScheduleConfig config);
 
     List<ScheduleConfig> selectAll();
-
+    /**
+     * 修改定时任务批量 批量
+     * @param configList
+     */
     void scheduleChange(List<ScheduleConfig> configList);
+    /**
+     * 修改定时任务批量 单个
+     * @param config
+     */
+    void scheduleChange(ScheduleConfig config);
 }
